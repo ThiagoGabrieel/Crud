@@ -1,3 +1,6 @@
+### Configurações locais, dados sensiveis ###
+db.properties
+
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
