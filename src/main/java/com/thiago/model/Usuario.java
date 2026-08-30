@@ -12,6 +12,14 @@ public class Usuario {
         setEmail(email);
         setSenha(senha);
     }
+    // construtor com overload para escopo de new usuario
+    // pra não precisar por o atributo id (será gerado na database sozinho)
+    public Usuario(String nome, String email, String senha) {
+        this.id = id;
+        this.nome = nome;
+        setEmail(email);
+        setSenha(senha);
+    }
 
     public long getId() { return id; }
     public String getNome() { return nome; }
