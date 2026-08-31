@@ -46,4 +46,27 @@ public class UsuarioRepository {
         }
         return null;
     }
+
+    public Usuario buscarPorEmail(String email){
+        try (Connection conn = ConnectionFactory.conectar();
+             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM usuario WHERE email = ?")){
+
+            stmt.setString(1, email);
+            ResultSet rs = stmt.executeQuery();
+
+            if(rs.next()){
+                Usuario usuario = new Usuario(
+                        rs.getLong("id"),
+                        rs.getString("nome"),
+                        rs.getString("email"),
+                        rs.getString("senha")
+                );
+                return usuario;
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
 }
