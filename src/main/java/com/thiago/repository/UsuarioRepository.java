@@ -113,4 +113,19 @@ public class UsuarioRepository {
         }
         return false;
     }
+
+    public boolean deletePorId(long id){
+        try(Connection conn = ConnectionFactory.conectar();
+            PreparedStatement stmt = conn.prepareStatement("DELETE FROM usuario WHERE id = ?")){
+
+            stmt.setLong(1, id);
+            if(stmt.executeUpdate() == 1){
+                return true;
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return false;
+    }
 }
