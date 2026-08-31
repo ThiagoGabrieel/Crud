@@ -69,4 +69,11 @@ public class UsuarioRepository {
         }
         return null;
     }
+
+    public Boolean emailJaExistente (String email){
+        if(buscarPorEmail(email) != null){
+            return true;
+        }
+        return false;
+    }
 }
