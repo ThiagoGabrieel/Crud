@@ -55,4 +55,17 @@ public class Main {
             }
         }
     }
+
+    public static  void cadastrar(){
+        System.out.print("Nos diga seu nome: ");
+        String nome = sc.next();
+
+        System.out.print("Crie seu email (usando '@gmail'): ");
+        String email = sc.next();
+
+        System.out.print("Crie sua senha (maximo 10 caracteres, caracteres especiais permitidos: @ e #): ");
+        String senha = sc.next();
+
+        service.cadastrar(nome,email, senha);
+    }
 }
