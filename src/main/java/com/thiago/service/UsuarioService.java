@@ -21,4 +21,16 @@ public class UsuarioService {
         System.out.println("Usuario cadastrado com sucesso!");
         return Novousuario;
     }
+
+    public Usuario login(String email, String senha){
+        Usuario encontrado = repository.buscarPorEmail(email);
+
+        if(encontrado == null){
+            throw new IllegalArgumentException("Usuario não encontrado!");
+        }
+        if(!encontrado.verificarSenha(senha)){
+            throw new IllegalArgumentException("Senha incorreta!");
+        }
+        return encontrado;
+    }
 }
