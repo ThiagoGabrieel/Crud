@@ -105,6 +105,34 @@ public class Main {
                 return;
             }
         }
+    }
+    public static void atualizarEmail(){
+        try{
+            System.out.println("Primeiro, confirme sua senha: ");
+            String senhaDigitada = sc.next();
 
+            System.out.println("Digite o novo email: ");
+            String email = sc.next();
+
+            service.atualizarEmail(usuario.getId(), email, senhaDigitada);
+
+        } catch (Exception e){
+            System.out.println("Erro ao atualizar email: " + e.getMessage());
+        }
+    }
+
+    public static void atualizarSenha(){
+        try{
+            System.out.println("Primeiro, confirme sua senha atual: ");
+            String senhaDigitada = sc.next();
+
+            System.out.println("Digite a nova senha (maximo 10 caracteres, caracteres especiais permitidos: @ e #): ");
+            String senha = sc.next();
+
+            service.atualizarSenha(usuario.getId(), senha);
+
+        } catch (Exception e){
+            System.out.println("Erro ao atualizar senha: " + e.getMessage());
+        }
     }
 }
