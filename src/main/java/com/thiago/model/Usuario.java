@@ -41,4 +41,11 @@ public class Usuario {
         }
         this.senha = senha;
     }
+
+    public boolean verificarEmail(String emailDigitado) {
+        return this.email.equals(emailDigitado);
+    }
+    public boolean verificarSenha(String senhaDigitada) {
+        return this.senha.equals(senhaDigitada);
+    }
 }
