@@ -56,16 +56,55 @@ public class Main {
         }
     }
 
-    public static  void cadastrar(){
-        System.out.print("Nos diga seu nome: ");
-        String nome = sc.next();
+    public static void cadastrar(){
+        try {
+            System.out.print("Nos diga seu nome: ");
+            String nome = sc.next();
 
-        System.out.print("Crie seu email (usando '@gmail'): ");
-        String email = sc.next();
+            System.out.print("Crie seu email (usando '@gmail'): ");
+            String email = sc.next();
 
-        System.out.print("Crie sua senha (maximo 10 caracteres, caracteres especiais permitidos: @ e #): ");
-        String senha = sc.next();
+            System.out.print("Crie sua senha (maximo 10 caracteres, caracteres especiais permitidos: @ e #): ");
+            String senha = sc.next();
 
-        service.cadastrar(nome,email, senha);
+            service.cadastrar(nome,email, senha);
+
+        } catch (Exception e) {
+            System.out.println("Erro ao se Cadastrar " + e.getMessage());
+        }
+
+    }
+
+    public static void login(){
+
+        int maxTentativas = 3;
+        int tentativas = 0;
+
+        while(tentativas < maxTentativas){
+
+            try {
+                System.out.print("Digite seu email: ");
+                String emailDigitado = sc.next();
+
+                System.out.print("Digite sua senha: ");
+                String senhaDigitada = sc.next();
+
+                usuario = service.login(emailDigitado, senhaDigitada);
+
+                System.out.println("Bem vindo, " + usuario.getNome() + "!");
+
+                menuUsuario();
+                return;
+
+            } catch (Exception e) {
+                System.out.println("Erro ao fazer Login: " + e.getMessage());
+                tentativas++;
+            }
+            if(maxTentativas == tentativas){
+                System.out.println("Número máximo de tentativas atingido. Encerrando...");
+                return;
+            }
+        }
+
     }
 }
