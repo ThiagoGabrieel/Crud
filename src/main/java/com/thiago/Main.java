@@ -135,4 +135,17 @@ public class Main {
             System.out.println("Erro ao atualizar senha: " + e.getMessage());
         }
     }
+
+    public static void deletarPorId(){
+        try{
+            System.out.println("Primeiro, confirme sua senha: ");
+            String senha = sc.next();
+
+            service.deletarPorId(usuario.getId(), senha);
+            System.out.println("Conta deletada com sucesso!");
+
+        } catch (Exception e){
+            System.out.println("Erro ao deletar conta: " + e.getMessage());
+        }
+    }
 }
