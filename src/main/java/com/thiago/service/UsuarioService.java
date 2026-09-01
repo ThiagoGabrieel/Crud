@@ -70,4 +70,17 @@ public class UsuarioService {
 
         return repository.buscarPorId(id);
     }
+
+    public Usuario deletarPorId(long id){
+        Usuario usuario = repository.buscarPorId(id);
+
+        if(usuario == null){
+            throw new IllegalArgumentException("Usuario não encontrado!");
+        }
+
+        repository.deletePorId(id);
+        System.out.println("Usuario deletado com sucesso!");
+
+        return usuario;
+    }
 }
