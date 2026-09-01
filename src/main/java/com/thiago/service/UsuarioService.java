@@ -52,4 +52,22 @@ public class UsuarioService {
 
         return repository.buscarPorId(id);
     }
+
+    public Usuario atualizarSenha(long id, String senha){
+        Usuario usuario = repository.buscarPorId(id);
+
+        if(usuario == null){
+            throw new IllegalArgumentException("Usuario não encontrado!");
+        }
+        if(!usuario.verificarSenha(senha)){
+            throw new IllegalArgumentException("Senha incorreta!");
+        }
+        if(!senha.matches("[a-zA-Z0-9@#]{10}")){
+            throw new IllegalArgumentException("Senha invalida. Maximo 10 caracteres, caracteres especiais permitidos: @ e #");
+        }
+        repository.atualizarEmail(id, senha);
+        System.out.println("Senha atualizada com sucesso!");
+
+        return repository.buscarPorId(id);
+    }
 }
