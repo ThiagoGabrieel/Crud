@@ -33,4 +33,26 @@ public class Main {
             }
         }
     }
+
+    public static void menuUsuario(){
+        while(true){
+            System.out.println("----- MENU DE USUARIO -----");
+            System.out.println("[1] - ATUALIZAR EMAIL");
+            System.out.println("[2] - ATUALIZAR SENHA");
+            System.out.println("[3] - DELETAR CONTA");
+            System.out.println("[4] - VOLTAR");
+            System.out.println("----------------------------");
+            int segundaOpcao = sc.nextInt();
+
+            switch(segundaOpcao){
+                case 1: atualizarEmail(); break;
+                case 2: atualizarSenha(); break;
+                case 3: deletar(); break;
+                case 4: System.out.print("Voltando...");
+                    return;
+
+                default: System.out.print("Opção inválida");
+            }
+        }
+    }
 }
