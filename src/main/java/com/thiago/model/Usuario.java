@@ -37,7 +37,7 @@ public class Usuario {
     }
     public void setSenha(String senha) {
         if(senha == null || !senha.matches("[a-zA-Z0-9@#]{10}")){
-            throw new IllegalArgumentException("Senha inválida. Maximo 10 caracteres");
+            throw new IllegalArgumentException("Senha inválida. Maximo 10 caracteres, caracteres especiais permitidos: @ e #");
         }
         this.senha = senha;
     }
