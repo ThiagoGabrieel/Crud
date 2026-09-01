@@ -36,9 +36,16 @@ public class Usuario {
         this.email = email;
     }
     public void setSenha(String senha) {
-        if(senha == null || senha.matches("[a-zA-Z0-9@#]")){
-            throw new IllegalArgumentException("Senha inválida");
+        if(senha == null || !senha.matches("[a-zA-Z0-9@#]{10}")){
+            throw new IllegalArgumentException("Senha inválida. Maximo 10 caracteres, caracteres especiais permitidos: @ e #");
         }
         this.senha = senha;
+    }
+
+    public boolean verificarEmail(String emailDigitado) {
+        return this.email.equals(emailDigitado);
+    }
+    public boolean verificarSenha(String senhaDigitada) {
+        return this.senha.equals(senhaDigitada);
     }
 }
