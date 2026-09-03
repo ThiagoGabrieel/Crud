@@ -20,6 +20,7 @@ public class Main {
             System.out.println("[2] - LOGIN");
             System.out.println("[3] - EXIT");
             System.out.println("-------------------------");
+            System.out.print("Escolha: ");
             int opcao = sc.nextInt();
 
             switch (opcao){
@@ -42,6 +43,7 @@ public class Main {
             System.out.println("[3] - DELETAR CONTA");
             System.out.println("[4] - VOLTAR");
             System.out.println("----------------------------");
+            System.out.print("Escolha: ");
             int segundaOpcao = sc.nextInt();
 
             switch(segundaOpcao){
