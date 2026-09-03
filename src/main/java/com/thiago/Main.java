@@ -149,11 +149,11 @@ public class Main {
                 System.out.print("Deseja realmente deletar sua conta? (Sim/Nao): ");
                 String confirmacao = sc.next();
 
-                if(confirmacao.toLowerCase().equals("sim")){
-                    service.deletarPorId(usuario.getId(), senha);
+                if(confirmacao.equalsIgnoreCase("sim")){
+                    service.deletar(usuario.getId(), senha);
                     break;
 
-                } else if(confirmacao.toLowerCase().equals("nao")) {
+                } else if(confirmacao.equalsIgnoreCase("nao")) {
                     System.out.println("Operação de deletar conta cancelada.");
                     return;
 
