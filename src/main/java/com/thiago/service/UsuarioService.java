@@ -4,7 +4,7 @@ import com.thiago.model.Usuario;
 import com.thiago.repository.UsuarioRepository;
 
 public class UsuarioService {
-    private UsuarioRepository repository = new UsuarioRepository();
+    private final UsuarioRepository repository = new UsuarioRepository();
 
     public Usuario cadastrar(String nome, String email, String senha) {
 
