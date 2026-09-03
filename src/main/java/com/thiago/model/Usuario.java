@@ -30,13 +30,13 @@ public class Usuario {
     public void setNome(String nome) { this.nome = nome; }
 
     public void setEmail(String email) {
-        if(email == null || !email.matches("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}")){
+        if(email == null || !email.matches("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{1,250}")){
             throw new IllegalArgumentException("Email inválido");
         }
         this.email = email;
     }
     public void setSenha(String senha) {
-        if(senha == null || !senha.matches("[a-zA-Z0-9@#]{10}")){
+        if(senha == null || !senha.matches("[a-zA-Z0-9@#]{1,10}")){
             throw new IllegalArgumentException("Senha inválida. Maximo 10 caracteres, caracteres especiais permitidos: @ e #");
         }
         this.senha = senha;

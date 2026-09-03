@@ -4,14 +4,17 @@ import com.thiago.model.Usuario;
 import com.thiago.repository.UsuarioRepository;
 
 public class UsuarioService {
-    private UsuarioRepository repository = new UsuarioRepository();
+    private final UsuarioRepository repository = new UsuarioRepository();
 
-    public Usuario cadastrar(String nome, String email, String senha){
+    public Usuario cadastrar(String nome, String email, String senha) {
 
-        if(repository.emailJaExistente(email)){
+        if(nome == null || nome.isEmpty()){
+            throw new IllegalArgumentException("Nome inválido");
+        }
+        if (repository.emailJaExistente(email)) {
             throw new IllegalArgumentException("Email já Existente no momento!");
         }
-        if(senha == null || !senha.matches("[a-zA-Z0-9@#]{10}")){
+        if (senha == null || !senha.matches("[a-zA-Z0-9@#]{1,10}")) {
             throw new IllegalArgumentException("Senha invalida");
         }
 
@@ -22,29 +25,29 @@ public class UsuarioService {
         return Novousuario;
     }
 
-    public Usuario login(String email, String senha){
+    public Usuario login(String email, String senha) {
         Usuario encontrado = repository.buscarPorEmail(email);
 
-        if(encontrado == null){
+        if (encontrado == null) {
             throw new IllegalArgumentException("Usuario não encontrado!");
         }
-        if(!encontrado.verificarSenha(senha)){
+        if (!encontrado.verificarSenha(senha)) {
             throw new IllegalArgumentException("Senha incorreta!");
         }
         return encontrado;
     }
 
-    public Usuario atualizarEmail(long id, String email, String senha){
+    public Usuario atualizarEmail(long id, String email, String senha) {
         Usuario usuario = repository.buscarPorId(id);
 
-        if(usuario == null){
+        if (usuario == null) {
             throw new IllegalArgumentException("Usuario não encontrado!");
         }
-        if(!usuario.verificarSenha(senha)) {
+        if (!usuario.verificarSenha(senha)) {
             throw new IllegalArgumentException("Senha incorreta!");
         }
-        if(repository.emailJaExistente(email)){
-            throw new IllegalArgumentException("Invalido. Esse email já foi cadastrado!");
+        if (repository.emailJaExistente(email)) {
+            throw new IllegalArgumentException("Inválido. Esse email já foi cadastrado!");
         }
 
         repository.atualizarEmail(id, email);
@@ -53,33 +56,36 @@ public class UsuarioService {
         return repository.buscarPorId(id);
     }
 
-    public Usuario atualizarSenha(long id, String senha){
+    public Usuario atualizarSenha(long id, String senha, String senhaDigitada) {
         Usuario usuario = repository.buscarPorId(id);
 
-        if(usuario == null){
+        if (usuario == null) {
             throw new IllegalArgumentException("Usuario não encontrado!");
         }
-        if(!usuario.verificarSenha(senha)){
+        if (!usuario.verificarSenha(senhaDigitada)) {
             throw new IllegalArgumentException("Senha incorreta!");
         }
-        if(!senha.matches("[a-zA-Z0-9@#]{10}")){
+        if (!senha.matches("[a-zA-Z0-9@#]{1,10}")) {
             throw new IllegalArgumentException("Senha invalida. Maximo 10 caracteres, caracteres especiais permitidos: @ e #");
         }
-        repository.atualizarEmail(id, senha);
+        repository.atualizarSenha(id, senha);
         System.out.println("Senha atualizada com sucesso!");
 
         return repository.buscarPorId(id);
     }
 
-    public Usuario deletarPorId(long id){
+    public Usuario deletar(long id, String senha) {
         Usuario usuario = repository.buscarPorId(id);
 
-        if(usuario == null){
+        if (usuario == null) {
             throw new IllegalArgumentException("Usuario não encontrado!");
+        }
+        if(senha == null || !usuario.verificarSenha(senha)){
+            throw new IllegalArgumentException("Senha incorreta!");
         }
 
         repository.deletePorId(id);
-        System.out.println("Usuario deletado com sucesso!");
+        System.out.println("Conta deletada com sucesso!");
 
         return usuario;
     }
