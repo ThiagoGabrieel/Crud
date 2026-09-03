@@ -146,11 +146,24 @@ public class Main {
                 System.out.println("Primeiro, confirme sua senha: ");
                 String senha = sc.next();
 
-            service.deletarPorId(usuario.getId(), senha);
-            System.out.println("Conta deletada com sucesso!");
+                System.out.print("Deseja realmente deletar sua conta? (Sim/Nao): ");
+                String confirmacao = sc.next();
 
-        } catch (Exception e){
-            System.out.println("Erro ao deletar conta: " + e.getMessage());
+                if(confirmacao.toLowerCase().equals("sim")){
+                    service.deletarPorId(usuario.getId(), senha);
+                    break;
+
+                } else if(confirmacao.toLowerCase().equals("nao")) {
+                    System.out.println("Operação de deletar conta cancelada.");
+                    return;
+
+                } else{
+                    System.out.println("Opção inválida. Por favor, digite 'Sim' ou 'Nao'.");
+                }
+
+            }  catch (Exception e) {
+                System.out.println("Erro ao deletar Conta: " + e.getMessage());
+            }
         }
     }
 }
