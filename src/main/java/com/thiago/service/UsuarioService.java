@@ -8,6 +8,9 @@ public class UsuarioService {
 
     public Usuario cadastrar(String nome, String email, String senha) {
 
+        if(nome == null || nome.isEmpty()){
+            throw new IllegalArgumentException("Nome inválido");
+        }
         if (repository.emailJaExistente(email)) {
             throw new IllegalArgumentException("Email já Existente no momento!");
         }
@@ -44,7 +47,7 @@ public class UsuarioService {
             throw new IllegalArgumentException("Senha incorreta!");
         }
         if (repository.emailJaExistente(email)) {
-            throw new IllegalArgumentException("Invalido. Esse email já foi cadastrado!");
+            throw new IllegalArgumentException("Inválido. Esse email já foi cadastrado!");
         }
 
         repository.atualizarEmail(id, email);
@@ -53,19 +56,19 @@ public class UsuarioService {
         return repository.buscarPorId(id);
     }
 
-    public Usuario atualizarSenha(long id, String senha) {
+    public Usuario atualizarSenha(long id, String senha, String senhaDigitada) {
         Usuario usuario = repository.buscarPorId(id);
 
         if (usuario == null) {
             throw new IllegalArgumentException("Usuario não encontrado!");
         }
-        if (!usuario.verificarSenha(senha)) {
+        if (!usuario.verificarSenha(senhaDigitada)) {
             throw new IllegalArgumentException("Senha incorreta!");
         }
-        if (!senha.matches("[a-zA-Z0-9@#]{10}")) {
+        if (!senha.matches("[a-zA-Z0-9@#]{1,10}")) {
             throw new IllegalArgumentException("Senha invalida. Maximo 10 caracteres, caracteres especiais permitidos: @ e #");
         }
-        repository.atualizarEmail(id, senha);
+        repository.atualizarSenha(id, senha);
         System.out.println("Senha atualizada com sucesso!");
 
         return repository.buscarPorId(id);
@@ -79,7 +82,7 @@ public class UsuarioService {
         }
 
         repository.deletePorId(id);
-        System.out.println("Usuario deletado com sucesso!");
+        System.out.println("Conta deletada com sucesso!");
 
         return usuario;
     }
