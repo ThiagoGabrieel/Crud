@@ -131,7 +131,7 @@ public class Main {
             System.out.println("Digite a nova senha (maximo 10 caracteres, caracteres especiais permitidos: @ e #): ");
             String senha = sc.next();
 
-            service.atualizarSenha(usuario.getId(), senha);
+            service.atualizarSenha(usuario.getId(), senha, senhaDigitada);
 
         } catch (Exception e){
             System.out.println("Erro ao atualizar senha: " + e.getMessage());
