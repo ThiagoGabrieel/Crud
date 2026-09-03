@@ -74,7 +74,7 @@ public class UsuarioService {
         return repository.buscarPorId(id);
     }
 
-    public Usuario deletarPorId(long id, String senha) {
+    public Usuario deletar(long id, String senha) {
         Usuario usuario = repository.buscarPorId(id);
 
         if (usuario == null) {
