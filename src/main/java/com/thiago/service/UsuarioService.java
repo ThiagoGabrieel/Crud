@@ -14,7 +14,7 @@ public class UsuarioService {
         if (repository.emailJaExistente(email)) {
             throw new IllegalArgumentException("Email já Existente no momento!");
         }
-        if (senha == null || !senha.matches("[a-zA-Z0-9@#]{10}")) {
+        if (senha == null || !senha.matches("[a-zA-Z0-9@#]{1,10}")) {
             throw new IllegalArgumentException("Senha invalida");
         }
 
