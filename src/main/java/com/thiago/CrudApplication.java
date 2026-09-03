@@ -5,7 +5,7 @@ import com.thiago.service.UsuarioService;
 
 import java.util.Scanner;
 
-public class Main {
+public class CrudApplication {
     static Scanner sc = new Scanner(System.in);
     static UsuarioService service = new UsuarioService();
     static Usuario usuario;
