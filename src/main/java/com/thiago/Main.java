@@ -50,7 +50,7 @@ public class Main {
                 case 1: atualizarEmail(); break;
                 case 2: atualizarSenha(); break;
                 case 3: deletar(); break;
-                case 4: System.out.print("Voltando...");
+                case 4: System.out.println("Voltando...");
                     return;
 
                 default: System.out.print("Opção inválida");
@@ -60,13 +60,13 @@ public class Main {
 
     public static void cadastrar(){
         try {
-            System.out.print("Nos diga seu nome: ");
+            System.out.println("Nos diga seu Nome: ");
             String nome = sc.next();
 
-            System.out.print("Crie seu email (usando '@gmail'): ");
+            System.out.println("Crie seu Email (usando '@gmail'): ");
             String email = sc.next();
 
-            System.out.print("Crie sua senha (maximo 10 caracteres, caracteres especiais permitidos: @ e #): ");
+            System.out.println("Crie sua Senha (maximo 10 caracteres, caracteres especiais permitidos: @ e #): ");
             String senha = sc.next();
 
             service.cadastrar(nome,email, senha);
