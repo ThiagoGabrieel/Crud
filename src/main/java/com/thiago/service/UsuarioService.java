@@ -80,6 +80,9 @@ public class UsuarioService {
         if (usuario == null) {
             throw new IllegalArgumentException("Usuario não encontrado!");
         }
+        if(senha == null || !usuario.verificarSenha(senha)){
+            throw new IllegalArgumentException("Senha incorreta!");
+        }
 
         repository.deletePorId(id);
         System.out.println("Conta deletada com sucesso!");
