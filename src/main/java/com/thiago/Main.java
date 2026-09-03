@@ -138,10 +138,13 @@ public class Main {
         }
     }
 
-    public static void deletarPorId(){
-        try{
-            System.out.println("Primeiro, confirme sua senha: ");
-            String senha = sc.next();
+    public static void deletar(){
+
+        while(true){
+            try{
+
+                System.out.println("Primeiro, confirme sua senha: ");
+                String senha = sc.next();
 
             service.deletarPorId(usuario.getId(), senha);
             System.out.println("Conta deletada com sucesso!");
