@@ -1,7 +1,6 @@
 package com.thiago;
 
 import com.thiago.model.Usuario;
-import com.thiago.repository.UsuarioRepository;
 import com.thiago.service.UsuarioService;
 
 import java.util.Scanner;
@@ -10,7 +9,6 @@ public class Main {
     static Scanner sc = new Scanner(System.in);
     static UsuarioService service = new UsuarioService();
     static Usuario usuario;
-    static UsuarioRepository repository = new UsuarioRepository();
 
     public static void main(String[] args) {
 
