@@ -21,4 +21,11 @@ public class UsuarioServiceTest {
     @InjectMocks
     private UsuarioService usuarioService;
 
+    @Test
+    public void deveLancarExcecaoQuandoNomeForNull() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            usuarioService.cadastrar(null, "teste@gmail.com", "teste123");
+        });
+    }
+
 }
