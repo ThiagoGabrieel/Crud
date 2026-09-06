@@ -15,4 +15,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @ExtendWith(MockitoExtension.class)
 public class UsuarioServiceTest {
 
+    @Mock
+    private UsuarioRepository usuarioRepository;
+
+    @InjectMocks
+    private UsuarioService usuarioService;
+
 }
