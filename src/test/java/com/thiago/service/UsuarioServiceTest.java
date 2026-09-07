@@ -66,7 +66,6 @@ public class UsuarioServiceTest {
 
         Mockito.verify(usuarioRepository).salvar(Mockito.any(Usuario.class));
     }
-        });
-    }
+    // ----- TESTES PARA O MÉTODO LOGIN ------
 
 }
