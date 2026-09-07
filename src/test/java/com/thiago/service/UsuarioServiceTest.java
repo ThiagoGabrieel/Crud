@@ -1,6 +1,5 @@
 package com.thiago.service;
 
-public class UsuarioService {
 import com.thiago.model.Usuario;
 import com.thiago.repository.UsuarioRepository;
 import org.junit.jupiter.api.Test;
@@ -46,6 +45,16 @@ public class UsuarioServiceTest {
 
         assertThrows(IllegalArgumentException.class, () -> {
             usuarioService.cadastrar("Teste", "teste123@gmail.com", "Teste123");
+        });
+    }
+
+    // Testando o método cadastrar para verificar se lança exceção quando a senha é inválida ao se cadastrar Usuario.
+    @ParameterizedTest
+    @NullSource
+    @ValueSource(strings = { "", "Teste 123", "testeDoTeste", "teste_"})
+    public void deveLancarExcecaoQuandoSenhaForInvalida(String senha){
+        assertThrows(IllegalArgumentException.class, () -> {
+            usuarioService.cadastrar("Teste", "teste@gmail.com", senha);
         });
     }
         });
