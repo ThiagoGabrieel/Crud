@@ -66,7 +66,5 @@ public class UsuarioServiceTest {
 
         Mockito.verify(usuarioRepository).salvar(Mockito.any(Usuario.class));
     }
-        });
-    }
 
 }
