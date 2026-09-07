@@ -1,13 +1,15 @@
 package com.thiago;
 
 import com.thiago.model.Usuario;
+import com.thiago.repository.UsuarioRepository;
 import com.thiago.service.UsuarioService;
 
 import java.util.Scanner;
 
 public class CrudApplication {
     static Scanner sc = new Scanner(System.in);
-    static UsuarioService service = new UsuarioService();
+    static UsuarioRepository repository = new UsuarioRepository();
+    static UsuarioService service = new UsuarioService(repository);
     static Usuario usuario;
 
     public static void main(String[] args) {

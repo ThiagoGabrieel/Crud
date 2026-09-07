@@ -4,7 +4,12 @@ import com.thiago.model.Usuario;
 import com.thiago.repository.UsuarioRepository;
 
 public class UsuarioService {
-    private final UsuarioRepository repository = new UsuarioRepository();
+    private final UsuarioRepository repository;
+
+    public UsuarioService(UsuarioRepository repository) {
+        this.repository = repository;
+    }
+
 
     public Usuario cadastrar(String nome, String email, String senha) {
 
@@ -56,7 +61,7 @@ public class UsuarioService {
         return repository.buscarPorId(id);
     }
 
-    public Usuario atualizarSenha(long id, String senha, String senhaDigitada) {
+    public Usuario atualizarSenha(long id, String senhaDigitada, String senha) {
         Usuario usuario = repository.buscarPorId(id);
 
         if (usuario == null) {
