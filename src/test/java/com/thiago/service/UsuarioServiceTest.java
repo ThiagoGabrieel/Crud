@@ -57,6 +57,15 @@ public class UsuarioServiceTest {
             usuarioService.cadastrar("Teste", "teste@gmail.com", senha);
         });
     }
+    //Testando se usuario esta sendo cadastrado, sem lançar exceção.
+    @Test
+    public void naoDeveLancarExcecaoSeUsuarioForCadastradoComSucesso() {
+        assertDoesNotThrow(() -> {
+            usuarioService.cadastrar("Teste", "teste123@gmail.com", "Teste123");
+        });
+
+        Mockito.verify(usuarioRepository).salvar(Mockito.any(Usuario.class));
+    }
         });
     }
 
