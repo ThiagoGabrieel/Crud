@@ -40,7 +40,7 @@ public class UsuarioServiceTest {
     // Testando o método cadastrar para verificar se lança exceção quando o email ja estiver em uso por outro usuario
     @Test
     public void deveLancarExcecaoQuandoEmailJaForExistente(){
-        Usuario usuarioEmailJaExistente = new Usuario(1L, "Teste","teste123@gmail.com", "Teste123");
+
         Mockito.when(usuarioRepository.emailJaExistente("teste123@gmail.com")).thenReturn(true);
 
         assertThrows(IllegalArgumentException.class, () -> {
