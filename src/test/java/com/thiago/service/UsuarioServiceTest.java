@@ -37,10 +37,17 @@ public class UsuarioServiceTest {
             usuarioService.cadastrar(nome, "teste12@gmail.com", "Teste123");
         });
     }
+
+    // Testando o método cadastrar para verificar se lança exceção quando o email ja estiver em uso por outro usuario
     @Test
-    public void deveLancarExcecaoQuandoNomeForNull() {
+    public void deveLancarExcecaoQuandoEmailJaForExistente(){
+        Usuario usuarioEmailJaExistente = new Usuario(1L, "Teste","teste123@gmail.com", "Teste123");
+        Mockito.when(usuarioRepository.emailJaExistente("teste123@gmail.com")).thenReturn(true);
+
         assertThrows(IllegalArgumentException.class, () -> {
-            usuarioService.cadastrar(null, "teste@gmail.com", "teste123");
+            usuarioService.cadastrar("Teste", "teste123@gmail.com", "Teste123");
+        });
+    }
         });
     }
 
