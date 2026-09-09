@@ -27,13 +27,16 @@ public class UsuarioServiceTest {
 
     // ----- TESTES PARA O MÉTODO CADASTRAR ------
 
+
     // Testando o método cadastrar para verificar se lança exceção quando o nome é nulo ou vazio ao se cadastrar Usuario.
     @ParameterizedTest
     @NullAndEmptySource
     public void deveLancarExcecaoQuandoNomeForNuloOuVazio(String nome){
-        assertThrows(IllegalArgumentException.class, () -> {
+        IllegalArgumentException exception =  assertThrows(IllegalArgumentException.class, () -> {
             usuarioService.cadastrar(nome, "teste12@gmail.com", "Teste123");
         });
+
+        assertEquals("Nome inválido", exception.getMessage());
     }
 
     // Testando o método cadastrar para verificar se lança exceção quando o email ja estiver em uso por outro usuario
@@ -42,9 +45,13 @@ public class UsuarioServiceTest {
 
         Mockito.when(usuarioRepository.emailJaExistente("teste123@gmail.com")).thenReturn(true);
 
-        assertThrows(IllegalArgumentException.class, () -> {
+        IllegalArgumentException exception =  assertThrows(IllegalArgumentException.class, () -> {
             usuarioService.cadastrar("Teste", "teste123@gmail.com", "Teste123");
         });
+
+        assertEquals("Email já Existente no momento!", exception.getMessage());
+
+        Mockito.verify(usuarioRepository).emailJaExistente("teste123@gmail.com");
     }
 
     // Testando o método cadastrar para verificar se lança exceção quando a senha é inválida ao se cadastrar Usuario.
@@ -52,9 +59,11 @@ public class UsuarioServiceTest {
     @NullSource
     @ValueSource(strings = { "", "Teste 123", "testeDoTeste", "teste_"})
     public void deveLancarExcecaoQuandoSenhaForInvalida(String senha){
-        assertThrows(IllegalArgumentException.class, () -> {
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             usuarioService.cadastrar("Teste", "teste@gmail.com", senha);
         });
+
+        assertEquals("Senha inválida", exception.getMessage());
     }
     //Testando se usuario esta sendo cadastrado, sem lançar exceção.
     @Test
