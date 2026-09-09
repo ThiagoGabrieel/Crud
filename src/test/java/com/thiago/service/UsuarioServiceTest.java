@@ -77,4 +77,16 @@ public class UsuarioServiceTest {
 
     // ----- TESTES PARA O MÉTODO LOGIN ------
 
+
+    // Testando o metodo Login para verificar se não encontrar usuario é lançado exceção
+    @Test
+    public void deveLancarExcecaoSeUsuarioNaoForEncontrado(){
+        Mockito.when(usuarioRepository.buscarPorEmail("teste13@gmail.com")).thenReturn(null);
+
+        assertThrows(IllegalArgumentException.class, () -> {
+           usuarioService.login("teste13@gmail.com", "teste123");
+        });
+
+        Mockito.verify(usuarioRepository).buscarPorEmail("teste13@gmail.com");
+    }
 }
