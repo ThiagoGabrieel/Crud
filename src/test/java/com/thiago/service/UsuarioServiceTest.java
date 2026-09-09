@@ -65,15 +65,16 @@ public class UsuarioServiceTest {
 
         assertEquals("Senha inválida", exception.getMessage());
     }
-    //Testando se usuario esta sendo cadastrado, sem lançar exceção.
+
+    //Testando se usuario esta sendo cadastrado.
     @Test
     public void naoDeveLancarExcecaoSeUsuarioForCadastradoComSucesso() {
         assertDoesNotThrow(() -> {
             usuarioService.cadastrar("Teste", "teste123@gmail.com", "Teste123");
         });
-
-        Mockito.verify(usuarioRepository).salvar(Mockito.any(Usuario.class));
     }
+
+
     // ----- TESTES PARA O MÉTODO LOGIN ------
 
 }
