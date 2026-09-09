@@ -89,4 +89,20 @@ public class UsuarioServiceTest {
 
         Mockito.verify(usuarioRepository).buscarPorEmail("teste13@gmail.com");
     }
+
+    //Testando metodo login para saber se a exceção é lançado quando senha for Incorreta
+    @Test
+    public void deveLancarExcecaoSeSenhaForIncorreta(){
+        Usuario usuarioSenhaIncorreta = new Usuario("Teste", "teste00@gmail.com", "Teste900");
+
+        Mockito.when(usuarioRepository.buscarPorEmail("teste00@gmail.com")).thenReturn(usuarioSenhaIncorreta);
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            usuarioService.login("teste00@gmail.com", "senhaErrada");
+        });
+
+        assertEquals("Senha incorreta!", exception.getMessage());
+
+        Mockito.verify(usuarioRepository).buscarPorEmail("teste00@gmail.com");
+    }
 }
