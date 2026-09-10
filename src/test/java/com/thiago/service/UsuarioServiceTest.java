@@ -111,7 +111,7 @@ public class UsuarioServiceTest {
 
     //Testando buscar usuario pelo Id, se não for encontrado lança a exceção
     @Test
-    public void deveLancarExcecaoSeIdNaoForEncontrado(){
+    public void deveLancarExcecaoSeUsuarioNaoForEncontradoAtualizarEmail(){
         Mockito.when(usuarioRepository.buscarPorId(1L)).thenReturn(null);
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
