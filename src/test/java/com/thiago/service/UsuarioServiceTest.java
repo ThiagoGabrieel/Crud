@@ -92,7 +92,7 @@ public class UsuarioServiceTest {
 
     //Testando metodo login para saber se a exceção é lançado quando senha for Incorreta
     @Test
-    public void deveLancarExcecaoSeSenhaForIncorreta(){
+    public void deveLancarExcecaoSeSenhaForIncorretaL(){
         Usuario usuarioSenhaIncorreta = new Usuario("Teste", "teste00@gmail.com", "Teste900");
 
         Mockito.when(usuarioRepository.buscarPorEmail("teste00@gmail.com")).thenReturn(usuarioSenhaIncorreta);
@@ -136,5 +136,10 @@ public class UsuarioServiceTest {
         assertEquals("Senha incorreta!", exception.getMessage());
 
         Mockito.verify(usuarioRepository).buscarPorId(1L);
+    }
+
+    @Test
+    public void deveLancarExcecaoSeEmailJaEstiverCadastradoAtualizarEmail(){
+
     }
 }
