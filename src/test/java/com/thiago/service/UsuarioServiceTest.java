@@ -105,4 +105,21 @@ public class UsuarioServiceTest {
 
         Mockito.verify(usuarioRepository).buscarPorEmail("teste00@gmail.com");
     }
+
+
+    // ----- TESTES PARA O MÉTODO ATUALIZAR EMAIL ------
+
+    //Testando buscar usuario pelo Id, se não for encontrado lança a exceção
+    @Test
+    public void deveLancarExcecaoSeIdNaoForEncontrado(){
+        Mockito.when(usuarioRepository.buscarPorId(1L)).thenReturn(null);
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+           usuarioService.atualizarEmail(1L,"teste@gmail.com", "teste900");
+        });
+
+        assertEquals("Usuario não encontrado!", exception.getMessage());
+
+        Mockito.verify(usuarioRepository).buscarPorId(1L);
+    }
 }
