@@ -20,7 +20,7 @@ public class UsuarioService {
             throw new IllegalArgumentException("Email já Existente no momento!");
         }
         if (senha == null || !senha.matches("[a-zA-Z0-9@#]{1,10}")) {
-            throw new IllegalArgumentException("Senha invalida");
+            throw new IllegalArgumentException("Senha inválida");
         }
 
         Usuario Novousuario = new Usuario(nome, email, senha);

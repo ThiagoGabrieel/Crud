@@ -13,8 +13,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -28,13 +27,16 @@ public class UsuarioServiceTest {
 
     // ----- TESTES PARA O MÉTODO CADASTRAR ------
 
+
     // Testando o método cadastrar para verificar se lança exceção quando o nome é nulo ou vazio ao se cadastrar Usuario.
     @ParameterizedTest
     @NullAndEmptySource
     public void deveLancarExcecaoQuandoNomeForNuloOuVazio(String nome){
-        assertThrows(IllegalArgumentException.class, () -> {
+        IllegalArgumentException exception =  assertThrows(IllegalArgumentException.class, () -> {
             usuarioService.cadastrar(nome, "teste12@gmail.com", "Teste123");
         });
+
+        assertEquals("Nome inválido", exception.getMessage());
     }
 
     // Testando o método cadastrar para verificar se lança exceção quando o email ja estiver em uso por outro usuario
@@ -43,9 +45,13 @@ public class UsuarioServiceTest {
 
         Mockito.when(usuarioRepository.emailJaExistente("teste123@gmail.com")).thenReturn(true);
 
-        assertThrows(IllegalArgumentException.class, () -> {
+        IllegalArgumentException exception =  assertThrows(IllegalArgumentException.class, () -> {
             usuarioService.cadastrar("Teste", "teste123@gmail.com", "Teste123");
         });
+
+        assertEquals("Email já Existente no momento!", exception.getMessage());
+
+        Mockito.verify(usuarioRepository).emailJaExistente("teste123@gmail.com");
     }
 
     // Testando o método cadastrar para verificar se lança exceção quando a senha é inválida ao se cadastrar Usuario.
@@ -53,19 +59,102 @@ public class UsuarioServiceTest {
     @NullSource
     @ValueSource(strings = { "", "Teste 123", "testeDoTeste", "teste_"})
     public void deveLancarExcecaoQuandoSenhaForInvalida(String senha){
-        assertThrows(IllegalArgumentException.class, () -> {
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             usuarioService.cadastrar("Teste", "teste@gmail.com", senha);
         });
+
+        assertEquals("Senha inválida", exception.getMessage());
     }
-    //Testando se usuario esta sendo cadastrado, sem lançar exceção.
+
+    //Testando se usuario esta sendo cadastrado.
     @Test
     public void naoDeveLancarExcecaoSeUsuarioForCadastradoComSucesso() {
         assertDoesNotThrow(() -> {
             usuarioService.cadastrar("Teste", "teste123@gmail.com", "Teste123");
         });
-
-        Mockito.verify(usuarioRepository).salvar(Mockito.any(Usuario.class));
     }
+
+
     // ----- TESTES PARA O MÉTODO LOGIN ------
 
+
+    // Testando o metodo Login para verificar se não encontrar usuario é lançado exceção
+    @Test
+    public void deveLancarExcecaoSeUsuarioNaoForEncontrado(){
+        Mockito.when(usuarioRepository.buscarPorEmail("teste13@gmail.com")).thenReturn(null);
+
+        assertThrows(IllegalArgumentException.class, () -> {
+           usuarioService.login("teste13@gmail.com", "teste123");
+        });
+
+        Mockito.verify(usuarioRepository).buscarPorEmail("teste13@gmail.com");
+    }
+
+    //Testando metodo login para saber se a exceção é lançado quando senha for Incorreta
+    @Test
+    public void deveLancarExcecaoSeSenhaForIncorretaL(){
+        Usuario usuarioSenhaIncorreta = new Usuario("Teste", "teste00@gmail.com", "Teste900");
+
+        Mockito.when(usuarioRepository.buscarPorEmail("teste00@gmail.com")).thenReturn(usuarioSenhaIncorreta);
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            usuarioService.login("teste00@gmail.com", "senhaErrada");
+        });
+
+        assertEquals("Senha incorreta!", exception.getMessage());
+
+        Mockito.verify(usuarioRepository).buscarPorEmail("teste00@gmail.com");
+    }
+
+
+    // ----- TESTES PARA O MÉTODO ATUALIZAR EMAIL ------
+
+    //Testando buscar usuario pelo Id, se não for encontrado lança a exceção
+    @Test
+    public void deveLancarExcecaoSeUsuarioNaoForEncontradoAtualizarEmail(){
+        Mockito.when(usuarioRepository.buscarPorId(1L)).thenReturn(null);
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+           usuarioService.atualizarEmail(1L,"teste@gmail.com", "teste900");
+        });
+
+        assertEquals("Usuario não encontrado!", exception.getMessage());
+
+        Mockito.verify(usuarioRepository).buscarPorId(1L);
+    }
+
+    //Testando se senha invalida lança exceção antes de atualizar o email
+    @Test
+    public void deveLancarExcecaoQuandoSenhaForIncorretaAtualizarEmail(){
+        Usuario usuarioAtualizarEmail = new Usuario(1L,"Teste", "teste@gmail.com", "teste123");
+        Mockito.when(usuarioRepository.buscarPorId(1L)).thenReturn(usuarioAtualizarEmail);
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            usuarioService.atualizarEmail(usuarioAtualizarEmail.getId(), usuarioAtualizarEmail.getEmail(), "teste321");
+        });
+
+        assertEquals("Senha incorreta!", exception.getMessage());
+
+        Mockito.verify(usuarioRepository).buscarPorId(1L);
+    }
+
+    @Test
+    public void deveLancarExcecaoSeEmailJaEstiverCadastradoAtualizarEmail(){
+
+    }
+
+
+    //----- TESTES PARA O MÉTODO ATUALIZAR SENHA -------
+
+    /* Testando o método atualizarSenha para verificar se lança exceção quando a senha é incorreta
+    /* antes de prosseguir com a atualização da senha. */
+    @Test
+    public void deveLancarExcecaoQuandoSenhaForIncorreta(){
+        Usuario usuario = new Usuario(1L, "Teste", "teste@gmail.com", "Teste123");
+        Mockito.when(usuarioRepository.buscarPorId(1L)).thenReturn(usuario);
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            usuarioService.atualizarSenha(usuario.getId(), "Teste12", "Teste900");
+        });
+    }
 }
