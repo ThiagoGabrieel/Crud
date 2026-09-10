@@ -142,4 +142,19 @@ public class UsuarioServiceTest {
     public void deveLancarExcecaoSeEmailJaEstiverCadastradoAtualizarEmail(){
 
     }
+
+
+    //----- TESTES PARA O MÉTODO ATUALIZAR SENHA -------
+
+    /* Testando o método atualizarSenha para verificar se lança exceção quando a senha é incorreta
+    /* antes de prosseguir com a atualização da senha. */
+    @Test
+    public void deveLancarExcecaoQuandoSenhaForIncorreta(){
+        Usuario usuario = new Usuario(1L, "Teste", "teste@gmail.com", "Teste123");
+        Mockito.when(usuarioRepository.buscarPorId(1L)).thenReturn(usuario);
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            usuarioService.atualizarSenha(usuario.getId(), "Teste12", "Teste900");
+        });
+    }
 }
