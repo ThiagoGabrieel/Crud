@@ -27,7 +27,12 @@ public class Usuario {
     public String getSenha() { return senha; }
 
     public void setId(long id) { this.id = id; }
-    public void setNome(String nome) { this.nome = nome; }
+    public void setNome(String nome) {
+        if(nome == null || nome.isEmpty()){
+            throw new IllegalArgumentException("Nome não pode estar vazio");
+        }
+        this.nome = nome;
+    }
 
     public void setEmail(String email) {
         if(email == null || !email.matches("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{1,250}")){
