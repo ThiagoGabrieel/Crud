@@ -66,7 +66,7 @@ public class CrudApplication {
             System.out.println("Crie seu Email (usando '@gmail'): ");
             String email = sc.next();
 
-            System.out.println("Crie sua Senha (maximo 10 caracteres, letras e números. Caracteres especiais permitidos: @ e #): ");
+            System.out.println("Crie sua Senha (Min 4 - Max 10 caracteres, letras e números. Caracteres especiais permitidos: @ e #):");
             String senha = sc.next();
 
             service.cadastrar(nome,email, senha);
