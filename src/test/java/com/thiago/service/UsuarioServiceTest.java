@@ -139,8 +139,17 @@ public class UsuarioServiceTest {
     }
 
     @Test
-    public void deveLancarExcecaoSeEmailJaEstiverCadastradoAtualizarEmail(){
+    public void deveLancarExcecaoSeEmailJaForCadastradoAtualizarEmail(){
+        Mockito.when(usuarioRepository.buscarPorId(1L)).thenReturn(new Usuario(1L, "Teste", "teste900@gmail.com", "teste12"));
+        Mockito.when(usuarioRepository.emailJaExistente("teste123@gmail.com")).thenReturn(true);
 
+        IllegalArgumentException exception =  assertThrows(IllegalArgumentException.class, () -> {
+            usuarioService.atualizarEmail(1L, "teste123@gmail.com", "teste12");
+        });
+
+        assertEquals("Inválido. Esse email já foi cadastrado!", exception.getMessage());
+
+        Mockito.verify(usuarioRepository).emailJaExistente("teste123@gmail.com");
     }
 
 
