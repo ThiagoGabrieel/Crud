@@ -207,4 +207,14 @@ public class UsuarioServiceTest {
         Mockito.verify(usuarioRepository).buscarPorId(1L);
     }
 
+    @Test
+    public void naoDeveLancarExcecaoSeSenhaForAtualizadaComSucesso(){
+        Mockito.when(usuarioRepository.buscarPorId(1L)).thenReturn(new Usuario(1L, "TesteSenha", "testesenha@gmail.com", "teste123"));
+
+        assertDoesNotThrow(() -> {
+            usuarioService.atualizarSenha(1L, "teste123", "teste900");
+        });
+
+        Mockito.verify(usuarioRepository).buscarPorId(1L);
+    }
 }
