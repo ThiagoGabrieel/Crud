@@ -16,7 +16,7 @@ public class Usuario {
     // pra não precisar por o atributo id (será gerado na database sozinho)
     public Usuario(String nome, String email, String senha) {
         this.id = id;
-        this.nome = nome;
+        setNome(nome);
         setEmail(email);
         setSenha(senha);
     }
