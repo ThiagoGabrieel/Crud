@@ -191,4 +191,20 @@ public class UsuarioServiceTest {
         assertEquals("Senha incorreta!", exception.getMessage());
         Mockito.verify(usuarioRepository).buscarPorId(1L);
     }
+
+
+    @ParameterizedTest
+    @ValueSource(strings = { "", "tes", "Teste 123", "testeDoTeste", "teste_", "312893894234"})
+    public void deveLancarExcecaoQuandoSenhaForInvalidaAtualizarSenha(String senha){
+        Mockito.when(usuarioRepository.buscarPorId(1L)).thenReturn(new Usuario(1L, "Teste", "teste123@gmail.com", "teste900"));
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+
+            usuarioService.atualizarSenha(1L, "teste900", senha);
+        });
+
+        assertEquals("Senha Fora dos Padrões Exigidos", exception.getMessage());
+        Mockito.verify(usuarioRepository).buscarPorId(1L);
+    }
+
 }
