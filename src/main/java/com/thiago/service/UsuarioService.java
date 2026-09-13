@@ -14,13 +14,13 @@ public class UsuarioService {
     public Usuario cadastrar(String nome, String email, String senha) {
 
         if(nome == null || nome.isEmpty()){
-            throw new IllegalArgumentException("Nome inválido");
+            throw new IllegalArgumentException("Nome não pode estar vazio");
         }
         if (repository.emailJaExistente(email)) {
             throw new IllegalArgumentException("Email já Existente no momento!");
         }
         if (senha == null || !senha.matches("[a-zA-Z0-9@#]{4,10}")) {
-            throw new IllegalArgumentException("Senhna Fora dos padrôes Exigidos");
+            throw new IllegalArgumentException("Senha Fora dos padrôes Exigidos");
         }
 
         Usuario Novousuario = new Usuario(nome, email, senha);
