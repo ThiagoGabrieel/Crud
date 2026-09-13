@@ -176,7 +176,6 @@ public class UsuarioServiceTest {
         });
 
         assertEquals("Usuario não encontrado!", exception.getMessage());
-
         Mockito.verify(usuarioRepository).buscarPorId(1L);
     }
 
@@ -184,11 +183,13 @@ public class UsuarioServiceTest {
     /* antes de prosseguir com a atualização da senha. */
     @Test
     public void deveLancarExcecaoQuandoSenhaForIncorreta(){
-        Usuario usuario = new Usuario(1L, "Teste", "teste@gmail.com", "Teste123");
-        Mockito.when(usuarioRepository.buscarPorId(1L)).thenReturn(usuario);
+        Mockito.when(usuarioRepository.buscarPorId(1L)).thenReturn(new Usuario(1L, "Teste21", "teste12@gmail.com", "teste12"));
 
-        assertThrows(IllegalArgumentException.class, () -> {
-            usuarioService.atualizarSenha(usuario.getId(), "Teste12", "Teste900");
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            usuarioService.atualizarSenha(1L, "Teste123", "Teste900");
         });
+
+        assertEquals("Senha incorreta!", exception.getMessage());
+        Mockito.verify(usuarioRepository).buscarPorId(1L);
     }
 }
