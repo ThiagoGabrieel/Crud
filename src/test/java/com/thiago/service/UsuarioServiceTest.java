@@ -192,7 +192,7 @@ public class UsuarioServiceTest {
         Mockito.verify(usuarioRepository).buscarPorId(1L);
     }
 
-
+    // Testandd tipos de formatos de senha ate cair na exceção
     @ParameterizedTest
     @ValueSource(strings = { "", "tes", "Teste 123", "testeDoTeste", "teste_", "312893894234"})
     public void deveLancarExcecaoQuandoSenhaForInvalidaAtualizarSenha(String senha){
