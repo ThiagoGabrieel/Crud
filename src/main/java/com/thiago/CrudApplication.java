@@ -133,7 +133,7 @@ public class CrudApplication {
             System.out.println("Digite a nova senha (maximo 10 caracteres, letras e números. Caracteres especiais permitidos: @ e #): ");
             String senha = sc.next();
 
-            service.atualizarSenha(usuario.getId(), senha, senhaDigitada);
+            service.atualizarSenha(usuario.getId(), senhaDigitada, senha);
             System.out.println("Senha atualizada com sucesso!");
 
         } catch (Exception e){
