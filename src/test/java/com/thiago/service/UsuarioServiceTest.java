@@ -166,6 +166,20 @@ public class UsuarioServiceTest {
 
     //----- TESTES PARA O MÉTODO ATUALIZAR SENHA -------
 
+    //Testando buscar usuario pelo Id, se não for encontrado lança a exceção
+    @Test
+    public void deveLancarExcecaoSeUsuarioNaoForEncontradoAtualizarSenha() {
+        Mockito.when(usuarioRepository.buscarPorId(1L)).thenReturn(null);
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            usuarioService.atualizarSenha(1L, "teste23@gmail.com", "teste900");
+        });
+
+        assertEquals("Usuario não encontrado!", exception.getMessage());
+
+        Mockito.verify(usuarioRepository).buscarPorId(1L);
+    }
+
     /* Testando o método atualizarSenha para verificar se lança exceção quando a senha é incorreta
     /* antes de prosseguir com a atualização da senha. */
     @Test
