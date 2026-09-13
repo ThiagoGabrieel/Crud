@@ -118,6 +118,7 @@ public class CrudApplication {
             String email = sc.next();
 
             service.atualizarEmail(usuario.getId(), email, senhaDigitada);
+            System.out.println("Email atualizado com sucesso!");
 
         } catch (Exception e){
             System.out.println("Erro ao atualizar email: " + e.getMessage());
@@ -133,6 +134,7 @@ public class CrudApplication {
             String senha = sc.next();
 
             service.atualizarSenha(usuario.getId(), senha, senhaDigitada);
+            System.out.println("Senha atualizada com sucesso!");
 
         } catch (Exception e){
             System.out.println("Erro ao atualizar senha: " + e.getMessage());
@@ -152,6 +154,7 @@ public class CrudApplication {
 
                 if(confirmacao.equalsIgnoreCase("sim")){
                     service.deletar(usuario.getId(), senha);
+                    System.out.println("Conta deletada com sucesso!");
                     break;
 
                 } else if(confirmacao.equalsIgnoreCase("nao")) {
