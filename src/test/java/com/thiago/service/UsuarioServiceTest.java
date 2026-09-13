@@ -27,7 +27,6 @@ public class UsuarioServiceTest {
 
     // ----- TESTES PARA O MÉTODO CADASTRAR ------
 
-
     // Testando o método cadastrar para verificar se lança exceção quando o nome é nulo ou vazio ao se cadastrar Usuario.
     @ParameterizedTest
     @NullAndEmptySource
@@ -57,13 +56,13 @@ public class UsuarioServiceTest {
     // Testando o método cadastrar para verificar se lança exceção quando a senha é inválida ao se cadastrar Usuario.
     @ParameterizedTest
     @NullSource
-    @ValueSource(strings = { "", "Teste 123", "testeDoTeste", "teste_"})
+    @ValueSource(strings = { "", "tes", "Teste 123", "testeDoTeste", "teste_"})
     public void deveLancarExcecaoQuandoSenhaForInvalida(String senha){
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             usuarioService.cadastrar("Teste", "teste@gmail.com", senha);
         });
 
-        assertEquals("Senha inválida", exception.getMessage());
+        assertEquals("Senha Fora dos padrôes Exigidos", exception.getMessage());
     }
 
     //Testando se usuario esta sendo cadastrado.
