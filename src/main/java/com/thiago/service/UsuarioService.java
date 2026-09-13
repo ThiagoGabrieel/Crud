@@ -19,8 +19,8 @@ public class UsuarioService {
         if (repository.emailJaExistente(email)) {
             throw new IllegalArgumentException("Email já Existente no momento!");
         }
-        if (senha == null || !senha.matches("[a-zA-Z0-9@#]{1,10}")) {
-            throw new IllegalArgumentException("Senha inválida fora dos padrôes permitidos");
+        if (senha == null || !senha.matches("[a-zA-Z0-9@#]{4,10}")) {
+            throw new IllegalArgumentException("Senhna Fora dos padrôes Exigidos");
         }
 
         Usuario Novousuario = new Usuario(nome, email, senha);
@@ -67,8 +67,8 @@ public class UsuarioService {
         if (!usuario.verificarSenha(senhaDigitada)) {
             throw new IllegalArgumentException("Senha incorreta!");
         }
-        if (!senha.matches("[a-zA-Z0-9@#]{1,10}")) {
-            throw new IllegalArgumentException("Fora dos Padrões permitidos.");
+        if (!senha.matches("[a-zA-Z0-9@#]{4,10}")) {
+            throw new IllegalArgumentException("Senha Fora dos Padrões Exigidos");
         }
 
         repository.atualizarSenha(id, senha);
