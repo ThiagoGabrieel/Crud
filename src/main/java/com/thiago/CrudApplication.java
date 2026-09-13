@@ -66,7 +66,7 @@ public class CrudApplication {
             System.out.println("Crie seu Email (usando '@gmail'): ");
             String email = sc.next();
 
-            System.out.println("Crie sua Senha (maximo 10 caracteres, caracteres especiais permitidos: @ e #): ");
+            System.out.println("Crie sua Senha (maximo 10 caracteres, letras e números. Caracteres especiais permitidos: @ e #): ");
             String senha = sc.next();
 
             service.cadastrar(nome,email, senha);
@@ -130,7 +130,7 @@ public class CrudApplication {
             System.out.println("Primeiro, confirme sua senha atual: ");
             String senhaDigitada = sc.next();
 
-            System.out.println("Digite a nova senha (maximo 10 caracteres, caracteres especiais permitidos: @ e #): ");
+            System.out.println("Digite a nova senha (maximo 10 caracteres, letras e números. Caracteres especiais permitidos: @ e #): ");
             String senha = sc.next();
 
             service.atualizarSenha(usuario.getId(), senha, senhaDigitada);
