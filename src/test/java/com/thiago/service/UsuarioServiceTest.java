@@ -152,6 +152,17 @@ public class UsuarioServiceTest {
         Mockito.verify(usuarioRepository).emailJaExistente("teste123@gmail.com");
     }
 
+    @Test
+    public void naoDeveLancarExcecaoSeEmailForAtualizadoComSucesso(){
+        Mockito.when(usuarioRepository.buscarPorId(1L)).thenReturn(new Usuario(1L, "TesteEmail", "testeEmail@gmail.com", "teste123"));
+
+        assertDoesNotThrow(() -> {
+            usuarioService.atualizarEmail(1L, "testeEmailAtualizado@gmail.com", "teste123");
+        });
+
+        Mockito.verify(usuarioRepository).buscarPorId(1L);
+    }
+
 
     //----- TESTES PARA O MÉTODO ATUALIZAR SENHA -------
 
