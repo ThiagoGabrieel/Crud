@@ -70,6 +70,7 @@ public class CrudApplication {
             String senha = sc.next();
 
             service.cadastrar(nome,email, senha);
+            System.out.println("Usuario cadastrado com sucesso!");
 
         } catch (Exception e) {
             System.out.println("Erro ao se Cadastrar " + e.getMessage());

@@ -26,7 +26,6 @@ public class UsuarioService {
         Usuario Novousuario = new Usuario(nome, email, senha);
         repository.salvar(Novousuario);
 
-        System.out.println("Usuario cadastrado com sucesso!");
         return Novousuario;
     }
 
@@ -52,7 +51,7 @@ public class UsuarioService {
             throw new IllegalArgumentException("Senha incorreta!");
         }
         if (repository.emailJaExistente(email)) {
-            throw new IllegalArgumentException("Inválido. Esse email já foi cadastrado!");
+            throw new IllegalArgumentException("Esse email já foi cadastrado!");
         }
 
         repository.atualizarEmail(id, email);
@@ -73,6 +72,7 @@ public class UsuarioService {
         if (!senha.matches("[a-zA-Z0-9@#]{1,10}")) {
             throw new IllegalArgumentException("Senha invalida. Maximo 10 caracteres, caracteres especiais permitidos: @ e #");
         }
+
         repository.atualizarSenha(id, senha);
         System.out.println("Senha atualizada com sucesso!");
 
@@ -90,8 +90,6 @@ public class UsuarioService {
         }
 
         repository.deletePorId(id);
-        System.out.println("Conta deletada com sucesso!");
-
         return usuario;
     }
 }

@@ -137,7 +137,7 @@ public class UsuarioServiceTest {
 
         Mockito.verify(usuarioRepository).buscarPorId(1L);
     }
-
+    // Teste para verificar se usuario tentar atualizar email com um já existente lança exceção
     @Test
     public void deveLancarExcecaoSeEmailJaForCadastradoAtualizarEmail(){
         Mockito.when(usuarioRepository.buscarPorId(1L)).thenReturn(new Usuario(1L, "Teste", "teste900@gmail.com", "teste12"));
