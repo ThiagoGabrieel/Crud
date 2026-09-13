@@ -55,9 +55,7 @@ public class UsuarioService {
         }
 
         repository.atualizarEmail(id, email);
-        System.out.println("Email atualizado com sucesso!");
-
-        return repository.buscarPorId(id);
+        return usuario;
     }
 
     public Usuario atualizarSenha(long id, String senhaDigitada, String senha) {
@@ -74,9 +72,7 @@ public class UsuarioService {
         }
 
         repository.atualizarSenha(id, senha);
-        System.out.println("Senha atualizada com sucesso!");
-
-        return repository.buscarPorId(id);
+        return usuario;
     }
 
     public Usuario deletar(long id, String senha) {
