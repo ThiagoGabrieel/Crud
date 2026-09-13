@@ -147,7 +147,7 @@ public class UsuarioServiceTest {
             usuarioService.atualizarEmail(1L, "teste123@gmail.com", "teste12");
         });
 
-        assertEquals("Inválido. Esse email já foi cadastrado!", exception.getMessage());
+        assertEquals("Esse email já foi cadastrado!", exception.getMessage());
 
         Mockito.verify(usuarioRepository).emailJaExistente("teste123@gmail.com");
     }
