@@ -20,7 +20,7 @@ public class UsuarioService {
             throw new IllegalArgumentException("Email já Existente no momento!");
         }
         if (senha == null || !senha.matches("[a-zA-Z0-9@#]{1,10}")) {
-            throw new IllegalArgumentException("Senha inválida");
+            throw new IllegalArgumentException("Senha inválida fora dos padrôes permitidos");
         }
 
         Usuario Novousuario = new Usuario(nome, email, senha);
@@ -68,7 +68,7 @@ public class UsuarioService {
             throw new IllegalArgumentException("Senha incorreta!");
         }
         if (!senha.matches("[a-zA-Z0-9@#]{1,10}")) {
-            throw new IllegalArgumentException("Senha invalida. Maximo 10 caracteres, caracteres especiais permitidos: @ e #");
+            throw new IllegalArgumentException("Fora dos Padrões permitidos.");
         }
 
         repository.atualizarSenha(id, senha);
