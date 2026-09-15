@@ -1,5 +1,6 @@
 package com.thiago;
 
+import com.thiago.exceptions.UsuarioException;
 import com.thiago.model.Usuario;
 import com.thiago.repository.UsuarioRepository;
 import com.thiago.service.UsuarioService;
@@ -71,7 +72,7 @@ public class CrudApplication {
 
             service.cadastrar(nome,email, senha);
 
-        } catch (Exception e) {
+        } catch (UsuarioException e) {
             System.out.println("Erro ao se Cadastrar " + e.getMessage());
         }
 
@@ -118,7 +119,7 @@ public class CrudApplication {
 
             service.atualizarEmail(usuario.getId(), email, senhaDigitada);
 
-        } catch (Exception e){
+        } catch (UsuarioException e){
             System.out.println("Erro ao atualizar email: " + e.getMessage());
         }
     }
@@ -133,7 +134,7 @@ public class CrudApplication {
 
             service.atualizarSenha(usuario.getId(), senha, senhaDigitada);
 
-        } catch (Exception e){
+        } catch (UsuarioException e){
             System.out.println("Erro ao atualizar senha: " + e.getMessage());
         }
     }
@@ -161,7 +162,7 @@ public class CrudApplication {
                     System.out.println("Opção inválida. Por favor, digite 'Sim' ou 'Nao'.");
                 }
 
-            }  catch (Exception e) {
+            }  catch (UsuarioException e) {
                 System.out.println("Erro ao deletar Conta: " + e.getMessage());
             }
         }
