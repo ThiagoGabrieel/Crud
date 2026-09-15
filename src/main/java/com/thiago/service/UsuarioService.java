@@ -1,5 +1,6 @@
 package com.thiago.service;
 
+import com.thiago.exceptions.UsuarioNaoEncontradoException;
 import com.thiago.model.Usuario;
 import com.thiago.repository.UsuarioRepository;
 
@@ -34,7 +35,7 @@ public class UsuarioService {
         Usuario encontrado = repository.buscarPorEmail(email);
 
         if (encontrado == null) {
-            throw new IllegalArgumentException("Usuario não encontrado!");
+            throw new UsuarioNaoEncontradoException("Usuario não encontrado!");
         }
         if (!encontrado.verificarSenha(senha)) {
             throw new IllegalArgumentException("Senha incorreta!");
@@ -46,7 +47,7 @@ public class UsuarioService {
         Usuario usuario = repository.buscarPorId(id);
 
         if (usuario == null) {
-            throw new IllegalArgumentException("Usuario não encontrado!");
+            throw new UsuarioNaoEncontradoException("Usuario não encontrado!");
         }
         if (!usuario.verificarSenha(senha)) {
             throw new IllegalArgumentException("Senha incorreta!");
@@ -65,7 +66,7 @@ public class UsuarioService {
         Usuario usuario = repository.buscarPorId(id);
 
         if (usuario == null) {
-            throw new IllegalArgumentException("Usuario não encontrado!");
+            throw new UsuarioNaoEncontradoException("Usuario não encontrado!");
         }
         if (!usuario.verificarSenha(senhaDigitada)) {
             throw new IllegalArgumentException("Senha incorreta!");
@@ -83,7 +84,7 @@ public class UsuarioService {
         Usuario usuario = repository.buscarPorId(id);
 
         if (usuario == null) {
-            throw new IllegalArgumentException("Usuario não encontrado!");
+            throw new UsuarioNaoEncontradoException("Usuario não encontrado!");
         }
         if(senha == null || !usuario.verificarSenha(senha)){
             throw new IllegalArgumentException("Senha incorreta!");
