@@ -1,6 +1,7 @@
 package com.thiago.repository;
 
 import com.thiago.connection.ConnectionFactory;
+import com.thiago.exceptions.RepositoryException;
 import com.thiago.model.Usuario;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -20,7 +21,7 @@ public class UsuarioRepository {
                 stmt.execute();
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RepositoryException("Erro ao salvar Usuario no Banco de Dados!!", e);
         }
     }
 
@@ -43,7 +44,7 @@ public class UsuarioRepository {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RepositoryException("Erro ao Buscar Id de Usuario no Banco de Dados!!", e);
         }
         return null;
     }
@@ -67,7 +68,7 @@ public class UsuarioRepository {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RepositoryException("Erro ao buscar Email de Usuario no Banco de Dados!!", e);
         }
         return null;
     }
@@ -92,7 +93,7 @@ public class UsuarioRepository {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RepositoryException("Erro ao tentar atualizar Email no Banco de Dados!!", e);
         }
         return false;
     }
@@ -109,7 +110,7 @@ public class UsuarioRepository {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RepositoryException("Erro ao tentar atualizar Senha no Banco de Dados!!", e);
         }
         return false;
     }
@@ -124,7 +125,7 @@ public class UsuarioRepository {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RepositoryException("Erro ao deletar Usuario no Banco de Dados!!", e);
         }
         return false;
     }
