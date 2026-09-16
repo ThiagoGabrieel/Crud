@@ -75,6 +75,10 @@ public class CrudApplication {
 
         } catch (UsuarioException e) {
             System.out.println("Erro ao se Cadastrar " + e.getMessage());
+
+        }catch (RepositoryException e) {
+            System.out.println("Erro no sistema, Tente novamente mais tarde");
+            return;
         }
 
     }
@@ -127,6 +131,10 @@ public class CrudApplication {
 
         } catch (UsuarioException e){
             System.out.println("Erro ao atualizar email: " + e.getMessage());
+
+        } catch (RepositoryException e){
+            System.out.println("Erro no sistema, Tente novamente mais tarde");
+            return;
         }
     }
 
@@ -142,6 +150,11 @@ public class CrudApplication {
 
         } catch (UsuarioException e){
             System.out.println("Erro ao atualizar senha: " + e.getMessage());
+
+        } catch (RepositoryException e){
+            System.out.println("Erro no sistema, Tente novamente mais tarde");
+            return;
+
         }
     }
 
@@ -170,6 +183,10 @@ public class CrudApplication {
 
             }  catch (UsuarioException e) {
                 System.out.println("Erro ao deletar Conta: " + e.getMessage());
+
+            } catch (RepositoryException e) {
+                System.out.println("Erro no sistema, Tente novamente mais tarde");
+                return;
             }
         }
     }
