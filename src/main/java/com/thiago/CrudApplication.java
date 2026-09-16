@@ -1,5 +1,6 @@
 package com.thiago;
 
+import com.thiago.exceptions.RepositoryException;
 import com.thiago.exceptions.UsuarioException;
 import com.thiago.model.Usuario;
 import com.thiago.repository.UsuarioRepository;
@@ -99,7 +100,7 @@ public class CrudApplication {
                 menuUsuario();
                 return;
 
-            } catch (Exception e) {
+            } catch (UsuarioException e) {
                 System.out.println("Erro ao fazer Login: " + e.getMessage());
                 tentativas++;
             }
