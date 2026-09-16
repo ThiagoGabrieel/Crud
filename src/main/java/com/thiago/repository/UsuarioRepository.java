@@ -21,7 +21,7 @@ public class UsuarioRepository {
                 stmt.execute();
 
         } catch (SQLException e) {
-            throw new RepositoryException("Erro ao salvar Usuario no Banco de Dados!!");
+            throw new RepositoryException("Erro ao salvar Usuario no Banco de Dados!!", e);
         }
     }
 
@@ -44,7 +44,7 @@ public class UsuarioRepository {
             }
 
         } catch (SQLException e) {
-            throw new RepositoryException("Erro ao Buscar Id de Usuario no Banco de Dados!!");
+            throw new RepositoryException("Erro ao Buscar Id de Usuario no Banco de Dados!!", e);
         }
         return null;
     }
@@ -68,7 +68,7 @@ public class UsuarioRepository {
             }
 
         } catch (SQLException e) {
-            throw new RepositoryException("Erro ao buscar Email de Usuario no Banco de Dados!!");
+            throw new RepositoryException("Erro ao buscar Email de Usuario no Banco de Dados!!", e);
         }
         return null;
     }
@@ -93,7 +93,7 @@ public class UsuarioRepository {
             }
 
         } catch (SQLException e) {
-            throw new RepositoryException("Erro ao tentar atualizar Email no Banco de Dados!!");
+            throw new RepositoryException("Erro ao tentar atualizar Email no Banco de Dados!!", e);
         }
         return false;
     }
@@ -110,7 +110,7 @@ public class UsuarioRepository {
             }
 
         } catch (SQLException e) {
-            throw new RepositoryException("Erro ao tentar atualizar Senha no Banco de Dados!!");
+            throw new RepositoryException("Erro ao tentar atualizar Senha no Banco de Dados!!", e);
         }
         return false;
     }
@@ -125,7 +125,7 @@ public class UsuarioRepository {
             }
 
         } catch (SQLException e) {
-            throw new RepositoryException("Erro ao deletar Usuario no Banco de Dados!!");
+            throw new RepositoryException("Erro ao deletar Usuario no Banco de Dados!!", e);
         }
         return false;
     }
