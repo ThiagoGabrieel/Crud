@@ -103,7 +103,12 @@ public class CrudApplication {
             } catch (UsuarioException e) {
                 System.out.println("Erro ao fazer Login: " + e.getMessage());
                 tentativas++;
+
+            } catch (RepositoryException e) {
+                System.out.println("Erro no sistema, Tente novamente mais tarde");
+                return;
             }
+
             if(maxTentativas == tentativas){
                 System.out.println("Número máximo de tentativas atingido. Encerrando...");
                 return;
