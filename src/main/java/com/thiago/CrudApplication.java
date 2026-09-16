@@ -78,7 +78,6 @@ public class CrudApplication {
 
         }catch (RepositoryException e) {
             System.out.println("Erro no sistema, Tente novamente mais tarde");
-            return;
         }
 
     }
@@ -134,7 +133,6 @@ public class CrudApplication {
 
         } catch (RepositoryException e){
             System.out.println("Erro no sistema, Tente novamente mais tarde");
-            return;
         }
     }
 
@@ -153,7 +151,6 @@ public class CrudApplication {
 
         } catch (RepositoryException e){
             System.out.println("Erro no sistema, Tente novamente mais tarde");
-            return;
 
         }
     }
@@ -186,7 +183,6 @@ public class CrudApplication {
 
             } catch (RepositoryException e) {
                 System.out.println("Erro no sistema, Tente novamente mais tarde");
-                return;
             }
         }
     }
