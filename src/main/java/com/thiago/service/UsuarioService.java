@@ -1,5 +1,6 @@
 package com.thiago.service;
 
+import com.thiago.exceptions.*;
 import com.thiago.model.Usuario;
 import com.thiago.repository.UsuarioRepository;
 
@@ -14,13 +15,13 @@ public class UsuarioService {
     public Usuario cadastrar(String nome, String email, String senha) {
 
         if(nome == null || nome.isEmpty()){
-            throw new IllegalArgumentException("Nome inválido");
+            throw new NomeInvalidoException("Nome inválido");
         }
         if (repository.emailJaExistente(email)) {
-            throw new IllegalArgumentException("Email já Existente no momento!");
+            throw new EmailJaCadastradoException("Email já Existente no momento!");
         }
         if (senha == null || !senha.matches("[a-zA-Z0-9@#]{1,10}")) {
-            throw new IllegalArgumentException("Senha inválida");
+            throw new SenhaInvalidaException("Senha inválida");
         }
 
         Usuario Novousuario = new Usuario(nome, email, senha);
@@ -34,10 +35,10 @@ public class UsuarioService {
         Usuario encontrado = repository.buscarPorEmail(email);
 
         if (encontrado == null) {
-            throw new IllegalArgumentException("Usuario não encontrado!");
+            throw new UsuarioNaoEncontradoException("Usuario não encontrado!");
         }
         if (!encontrado.verificarSenha(senha)) {
-            throw new IllegalArgumentException("Senha incorreta!");
+            throw new SenhaIncorretaException("Senha incorreta!");
         }
         return encontrado;
     }
@@ -46,13 +47,13 @@ public class UsuarioService {
         Usuario usuario = repository.buscarPorId(id);
 
         if (usuario == null) {
-            throw new IllegalArgumentException("Usuario não encontrado!");
+            throw new UsuarioNaoEncontradoException("Usuario não encontrado!");
         }
         if (!usuario.verificarSenha(senha)) {
-            throw new IllegalArgumentException("Senha incorreta!");
+            throw new SenhaIncorretaException("Senha incorreta!");
         }
         if (repository.emailJaExistente(email)) {
-            throw new IllegalArgumentException("Inválido. Esse email já foi cadastrado!");
+            throw new EmailJaCadastradoException("Inválido. Esse email já foi cadastrado!");
         }
 
         repository.atualizarEmail(id, email);
@@ -65,13 +66,13 @@ public class UsuarioService {
         Usuario usuario = repository.buscarPorId(id);
 
         if (usuario == null) {
-            throw new IllegalArgumentException("Usuario não encontrado!");
+            throw new UsuarioNaoEncontradoException("Usuario não encontrado!");
         }
         if (!usuario.verificarSenha(senhaDigitada)) {
-            throw new IllegalArgumentException("Senha incorreta!");
+            throw new SenhaIncorretaException("Senha incorreta!");
         }
         if (!senha.matches("[a-zA-Z0-9@#]{1,10}")) {
-            throw new IllegalArgumentException("Senha invalida. Maximo 10 caracteres, caracteres especiais permitidos: @ e #");
+            throw new SenhaInvalidaException("Senha invalida. Maximo 10 caracteres, caracteres especiais permitidos: @ e #");
         }
         repository.atualizarSenha(id, senha);
         System.out.println("Senha atualizada com sucesso!");
@@ -83,10 +84,10 @@ public class UsuarioService {
         Usuario usuario = repository.buscarPorId(id);
 
         if (usuario == null) {
-            throw new IllegalArgumentException("Usuario não encontrado!");
+            throw new UsuarioNaoEncontradoException("Usuario não encontrado!");
         }
         if(senha == null || !usuario.verificarSenha(senha)){
-            throw new IllegalArgumentException("Senha incorreta!");
+            throw new SenhaIncorretaException("Senha incorreta!");
         }
 
         repository.deletePorId(id);
