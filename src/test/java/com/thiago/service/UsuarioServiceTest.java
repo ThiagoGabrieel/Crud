@@ -217,4 +217,20 @@ public class UsuarioServiceTest {
 
         Mockito.verify(usuarioRepository).buscarPorId(1L);
     }
+
+    //----- TESTES PARA O MÉTODO DELETAR USUARIO -------
+
+
+    // Teste para verificação de exceções no metodo Deletar.
+    @Test
+    public void deveLancarExcecaoSeUsuarioNaoForEncontradoDeletar(){
+        Mockito.when(usuarioRepository.buscarPorId(1L)).thenReturn(null);
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            usuarioService.deletar(1L, "teste123");
+        });
+
+        assertEquals("Usuario não encontrado!", exception.getMessage());
+        Mockito.verify(usuarioRepository).buscarPorId(1L);
+    }
 }
