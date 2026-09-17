@@ -14,18 +14,19 @@ public class UsuarioService {
     public Usuario cadastrar(String nome, String email, String senha) {
 
         if(nome == null || nome.isEmpty()){
-            throw new IllegalArgumentException("Nome não pode estar vazio");
+            throw new IllegalArgumentException("Nome inválido");
         }
         if (repository.emailJaExistente(email)) {
             throw new IllegalArgumentException("Email já Existente no momento!");
         }
-        if (senha == null || !senha.matches("[a-zA-Z0-9@#]{4,10}")) {
-            throw new IllegalArgumentException("Senha Fora dos padrôes Exigidos");
+        if (senha == null || !senha.matches("[a-zA-Z0-9@#]{1,10}")) {
+            throw new IllegalArgumentException("Senha inválida");
         }
 
         Usuario Novousuario = new Usuario(nome, email, senha);
         repository.salvar(Novousuario);
 
+        System.out.println("Usuario cadastrado com sucesso!");
         return Novousuario;
     }
 
@@ -51,11 +52,13 @@ public class UsuarioService {
             throw new IllegalArgumentException("Senha incorreta!");
         }
         if (repository.emailJaExistente(email)) {
-            throw new IllegalArgumentException("Esse email já foi cadastrado!");
+            throw new IllegalArgumentException("Inválido. Esse email já foi cadastrado!");
         }
 
         repository.atualizarEmail(id, email);
-        return usuario;
+        System.out.println("Email atualizado com sucesso!");
+
+        return repository.buscarPorId(id);
     }
 
     public Usuario atualizarSenha(long id, String senhaDigitada, String senha) {
@@ -67,12 +70,13 @@ public class UsuarioService {
         if (!usuario.verificarSenha(senhaDigitada)) {
             throw new IllegalArgumentException("Senha incorreta!");
         }
-        if (!senha.matches("[a-zA-Z0-9@#]{4,10}")) {
-            throw new IllegalArgumentException("Senha Fora dos Padrões Exigidos");
+        if (!senha.matches("[a-zA-Z0-9@#]{1,10}")) {
+            throw new IllegalArgumentException("Senha invalida. Maximo 10 caracteres, caracteres especiais permitidos: @ e #");
         }
-
         repository.atualizarSenha(id, senha);
-        return usuario;
+        System.out.println("Senha atualizada com sucesso!");
+
+        return repository.buscarPorId(id);
     }
 
     public Usuario deletar(long id, String senha) {
@@ -86,6 +90,8 @@ public class UsuarioService {
         }
 
         repository.deletePorId(id);
+        System.out.println("Conta deletada com sucesso!");
+
         return usuario;
     }
 }

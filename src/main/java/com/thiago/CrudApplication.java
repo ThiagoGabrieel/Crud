@@ -1,5 +1,7 @@
 package com.thiago;
 
+import com.thiago.exceptions.RepositoryException;
+import com.thiago.exceptions.UsuarioException;
 import com.thiago.model.Usuario;
 import com.thiago.repository.UsuarioRepository;
 import com.thiago.service.UsuarioService;
@@ -72,8 +74,11 @@ public class CrudApplication {
             service.cadastrar(nome,email, senha);
             System.out.println("Usuario cadastrado com sucesso!");
 
-        } catch (Exception e) {
+        } catch (UsuarioException e) {
             System.out.println("Erro ao se Cadastrar " + e.getMessage());
+
+        }catch (RepositoryException e) {
+            System.out.println("Erro no sistema, Tente novamente mais tarde");
         }
 
     }
@@ -99,10 +104,15 @@ public class CrudApplication {
                 menuUsuario();
                 return;
 
-            } catch (Exception e) {
+            } catch (UsuarioException e) {
                 System.out.println("Erro ao fazer Login: " + e.getMessage());
                 tentativas++;
+
+            } catch (RepositoryException e) {
+                System.out.println("Erro no sistema, Tente novamente mais tarde");
+                return;
             }
+
             if(maxTentativas == tentativas){
                 System.out.println("Número máximo de tentativas atingido. Encerrando...");
                 return;
@@ -120,8 +130,11 @@ public class CrudApplication {
             service.atualizarEmail(usuario.getId(), email, senhaDigitada);
             System.out.println("Email atualizado com sucesso!");
 
-        } catch (Exception e){
+        } catch (UsuarioException e){
             System.out.println("Erro ao atualizar email: " + e.getMessage());
+
+        } catch (RepositoryException e){
+            System.out.println("Erro no sistema, Tente novamente mais tarde");
         }
     }
 
@@ -136,8 +149,12 @@ public class CrudApplication {
             service.atualizarSenha(usuario.getId(), senhaDigitada, senha);
             System.out.println("Senha atualizada com sucesso!");
 
-        } catch (Exception e){
+        } catch (UsuarioException e){
             System.out.println("Erro ao atualizar senha: " + e.getMessage());
+
+        } catch (RepositoryException e){
+            System.out.println("Erro no sistema, Tente novamente mais tarde");
+
         }
     }
 
@@ -165,8 +182,11 @@ public class CrudApplication {
                     System.out.println("Opção inválida. Por favor, digite 'Sim' ou 'Nao'.");
                 }
 
-            }  catch (Exception e) {
+            }  catch (UsuarioException e) {
                 System.out.println("Erro ao deletar Conta: " + e.getMessage());
+
+            } catch (RepositoryException e) {
+                System.out.println("Erro no sistema, Tente novamente mais tarde");
             }
         }
     }

@@ -16,7 +16,7 @@ public class Usuario {
     // pra não precisar por o atributo id (será gerado na database sozinho)
     public Usuario(String nome, String email, String senha) {
         this.id = id;
-        setNome(nome);
+        this.nome = nome;
         setEmail(email);
         setSenha(senha);
     }
@@ -27,12 +27,7 @@ public class Usuario {
     public String getSenha() { return senha; }
 
     public void setId(long id) { this.id = id; }
-    public void setNome(String nome) {
-        if(nome == null || nome.isEmpty()){
-            throw new IllegalArgumentException("Nome não pode estar vazio");
-        }
-        this.nome = nome;
-    }
+    public void setNome(String nome) { this.nome = nome; }
 
     public void setEmail(String email) {
         if(email == null || !email.matches("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{1,250}")){
@@ -41,8 +36,8 @@ public class Usuario {
         this.email = email;
     }
     public void setSenha(String senha) {
-        if(senha == null || !senha.matches("[a-zA-Z0-9@#]{4,10}")){
-            throw new IllegalArgumentException("Min 4 - Max 10 caracteres, letras e números. Caracteres especiais permitidos: @ e #");
+        if(senha == null || !senha.matches("[a-zA-Z0-9@#]{1,10}")){
+            throw new IllegalArgumentException("Senha inválida. Maximo 10 caracteres, caracteres especiais permitidos: @ e #");
         }
         this.senha = senha;
     }
