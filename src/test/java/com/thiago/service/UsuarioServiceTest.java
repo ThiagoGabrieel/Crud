@@ -1,6 +1,6 @@
 package com.thiago.service;
 
-import com.thiago.exceptions.SenhaIncorretaException;
+import com.thiago.exceptions.*;
 import com.thiago.model.Usuario;
 import com.thiago.repository.UsuarioRepository;
 import org.junit.jupiter.api.Test;
@@ -32,7 +32,7 @@ public class UsuarioServiceTest {
     @ParameterizedTest
     @NullAndEmptySource
     public void deveLancarExcecaoQuandoNomeForNuloOuVazio(String nome){
-        IllegalArgumentException exception =  assertThrows(IllegalArgumentException.class, () -> {
+        NomeInvalidoException exception =  assertThrows(NomeInvalidoException.class, () -> {
             usuarioService.cadastrar(nome, "teste12@gmail.com", "Teste123");
         });
 
@@ -45,12 +45,11 @@ public class UsuarioServiceTest {
 
         Mockito.when(usuarioRepository.emailJaExistente("teste123@gmail.com")).thenReturn(true);
 
-        IllegalArgumentException exception =  assertThrows(IllegalArgumentException.class, () -> {
+        EmailJaCadastradoException exception =  assertThrows(EmailJaCadastradoException.class, () -> {
             usuarioService.cadastrar("Teste", "teste123@gmail.com", "Teste123");
         });
 
         assertEquals("Email já Existente no momento!", exception.getMessage());
-
         Mockito.verify(usuarioRepository).emailJaExistente("teste123@gmail.com");
     }
 
@@ -59,7 +58,7 @@ public class UsuarioServiceTest {
     @NullSource
     @ValueSource(strings = { "", "tes", "Teste 123", "testeDoTeste", "teste_"})
     public void deveLancarExcecaoQuandoSenhaForInvalida(String senha){
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+        SenhaInvalidaException exception = assertThrows(SenhaInvalidaException.class, () -> {
             usuarioService.cadastrar("Teste", "teste@gmail.com", senha);
         });
 
@@ -83,10 +82,11 @@ public class UsuarioServiceTest {
     public void deveLancarExcecaoSeUsuarioNaoForEncontrado(){
         Mockito.when(usuarioRepository.buscarPorEmail("teste13@gmail.com")).thenReturn(null);
 
-        assertThrows(IllegalArgumentException.class, () -> {
+        UsuarioNaoEncontradoException exception= assertThrows(UsuarioNaoEncontradoException.class, () -> {
            usuarioService.login("teste13@gmail.com", "teste123");
         });
 
+        assertEquals("Usuario não encontrado!", exception.getMessage());
         Mockito.verify(usuarioRepository).buscarPorEmail("teste13@gmail.com");
     }
 
@@ -111,12 +111,11 @@ public class UsuarioServiceTest {
     public void deveLancarExcecaoSeUsuarioNaoForEncontradoAtualizarEmail(){
         Mockito.when(usuarioRepository.buscarPorId(1L)).thenReturn(null);
 
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+        UsuarioNaoEncontradoException exception = assertThrows(UsuarioNaoEncontradoException.class, () -> {
            usuarioService.atualizarEmail(1L,"teste@gmail.com", "teste900");
         });
 
         assertEquals("Usuario não encontrado!", exception.getMessage());
-
         Mockito.verify(usuarioRepository).buscarPorId(1L);
     }
 
@@ -126,12 +125,11 @@ public class UsuarioServiceTest {
         Usuario usuarioAtualizarEmail = new Usuario(1L,"Teste", "teste@gmail.com", "teste123");
         Mockito.when(usuarioRepository.buscarPorId(1L)).thenReturn(usuarioAtualizarEmail);
 
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+        SenhaIncorretaException exception = assertThrows(SenhaIncorretaException.class, () -> {
             usuarioService.atualizarEmail(usuarioAtualizarEmail.getId(), usuarioAtualizarEmail.getEmail(), "teste321");
         });
 
         assertEquals("Senha incorreta!", exception.getMessage());
-
         Mockito.verify(usuarioRepository).buscarPorId(1L);
     }
     // Teste para verificar se usuario tentar atualizar email com um já existente lança exceção
@@ -140,12 +138,11 @@ public class UsuarioServiceTest {
         Mockito.when(usuarioRepository.buscarPorId(1L)).thenReturn(new Usuario(1L, "Teste", "teste900@gmail.com", "teste12"));
         Mockito.when(usuarioRepository.emailJaExistente("teste123@gmail.com")).thenReturn(true);
 
-        IllegalArgumentException exception =  assertThrows(IllegalArgumentException.class, () -> {
+        EmailJaCadastradoException exception =  assertThrows(EmailJaCadastradoException.class, () -> {
             usuarioService.atualizarEmail(1L, "teste123@gmail.com", "teste12");
         });
 
         assertEquals("Esse email já foi cadastrado!", exception.getMessage());
-
         Mockito.verify(usuarioRepository).emailJaExistente("teste123@gmail.com");
     }
 
@@ -168,7 +165,7 @@ public class UsuarioServiceTest {
     public void deveLancarExcecaoSeUsuarioNaoForEncontradoAtualizarSenha() {
         Mockito.when(usuarioRepository.buscarPorId(1L)).thenReturn(null);
 
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+        UsuarioNaoEncontradoException exception = assertThrows(UsuarioNaoEncontradoException.class, () -> {
             usuarioService.atualizarSenha(1L, "teste23@gmail.com", "teste900");
         });
 
@@ -182,7 +179,7 @@ public class UsuarioServiceTest {
     public void deveLancarExcecaoQuandoSenhaForIncorreta(){
         Mockito.when(usuarioRepository.buscarPorId(1L)).thenReturn(new Usuario(1L, "Teste21", "teste12@gmail.com", "teste12"));
 
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+        SenhaIncorretaException exception = assertThrows(SenhaIncorretaException.class, () -> {
             usuarioService.atualizarSenha(1L, "Teste123", "Teste900");
         });
 
@@ -196,12 +193,12 @@ public class UsuarioServiceTest {
     public void deveLancarExcecaoQuandoSenhaForInvalidaAtualizarSenha(String senha){
         Mockito.when(usuarioRepository.buscarPorId(1L)).thenReturn(new Usuario(1L, "Teste", "teste123@gmail.com", "teste900"));
 
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+        SenhaInvalidaException exception = assertThrows(SenhaInvalidaException.class, () -> {
 
             usuarioService.atualizarSenha(1L, "teste900", senha);
         });
 
-        assertEquals("Senha Fora dos Padrões Exigidos", exception.getMessage());
+        assertEquals("Senha inválida. Maximo 10 caracteres, caracteres especiais permitidos: @ e #", exception.getMessage());
         Mockito.verify(usuarioRepository).buscarPorId(1L);
     }
 
@@ -224,7 +221,7 @@ public class UsuarioServiceTest {
     public void deveLancarExcecaoSeUsuarioNaoForEncontradoDeletar(){
         Mockito.when(usuarioRepository.buscarPorId(1L)).thenReturn(null);
 
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+        UsuarioNaoEncontradoException exception = assertThrows(UsuarioNaoEncontradoException.class, () -> {
             usuarioService.deletar(1L, "teste123");
         });
 
