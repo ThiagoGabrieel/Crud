@@ -1,5 +1,6 @@
 package com.thiago.service;
 
+import com.thiago.exceptions.SenhaIncorretaException;
 import com.thiago.model.Usuario;
 import com.thiago.repository.UsuarioRepository;
 import org.junit.jupiter.api.Test;
@@ -231,6 +232,19 @@ public class UsuarioServiceTest {
         });
 
         assertEquals("Usuario não encontrado!", exception.getMessage());
+        Mockito.verify(usuarioRepository).buscarPorId(1L);
+    }
+
+    // Teste de verificação se lança exceção quando senha for null/incorreta
+    @Test
+    public void deveLancarExcecaoSeSenhaForNull(){
+        Mockito.when(usuarioRepository.buscarPorId(1L)).thenReturn(new Usuario(1L, "Teste", "teste@gmail.com", "teste123"));
+
+        SenhaIncorretaException exception = assertThrows(SenhaIncorretaException.class, () -> {
+            usuarioService.deletar(1L, null);
+        });
+
+        assertEquals("Senha incorreta!", exception.getMessage());
         Mockito.verify(usuarioRepository).buscarPorId(1L);
     }
 }
