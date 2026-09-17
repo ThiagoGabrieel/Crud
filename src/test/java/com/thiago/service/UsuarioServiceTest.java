@@ -247,4 +247,17 @@ public class UsuarioServiceTest {
         assertEquals("Senha incorreta!", exception.getMessage());
         Mockito.verify(usuarioRepository).buscarPorId(1L);
     }
+
+    // Teste de verificação se lança exceção quando senha for incorreta
+    @Test
+    public void deveLancarExcecaoSeSenhaForIncorreta(){
+        Mockito.when(usuarioRepository.buscarPorId(1L)).thenReturn(new Usuario(1L, "Teste", "teste@gmail.com", "teste321"));
+
+        SenhaIncorretaException exception = assertThrows(SenhaIncorretaException.class, () -> {
+            usuarioService.deletar(1L, "teste900");
+        });
+
+        assertEquals("Senha incorreta!", exception.getMessage());
+        Mockito.verify(usuarioRepository).buscarPorId(1L);
+    }
 }
