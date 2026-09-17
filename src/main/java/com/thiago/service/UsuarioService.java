@@ -20,8 +20,8 @@ public class UsuarioService {
         if (repository.emailJaExistente(email)) {
             throw new EmailJaCadastradoException("Email já Existente no momento!");
         }
-        if (senha == null || !senha.matches("[a-zA-Z0-9@#]{1,10}")) {
-            throw new SenhaInvalidaException("Senha inválida");
+        if (senha == null || !senha.matches("[a-zA-Z0-9@#]{4,10}")) {
+            throw new SenhaInvalidaException("Senha inválida. Maximo 10 caracteres, caracteres especiais permitidos: @ e #");
         }
 
         Usuario Novousuario = new Usuario(nome, email, senha);
@@ -71,8 +71,8 @@ public class UsuarioService {
         if (!usuario.verificarSenha(senhaDigitada)) {
             throw new SenhaIncorretaException("Senha incorreta!");
         }
-        if (!senha.matches("[a-zA-Z0-9@#]{1,10}")) {
-            throw new SenhaInvalidaException("Senha invalida. Maximo 10 caracteres, caracteres especiais permitidos: @ e #");
+        if (!senha.matches("[a-zA-Z0-9@#]{4,10}")) {
+            throw new SenhaInvalidaException("Senha inválida. Maximo 10 caracteres, caracteres especiais permitidos: @ e #");
         }
         repository.atualizarSenha(id, senha);
         System.out.println("Senha atualizada com sucesso!");
