@@ -1,5 +1,8 @@
 package com.thiago.model;
 
+import com.thiago.exceptions.EmailInvalidoException;
+import com.thiago.exceptions.SenhaInvalidaException;
+
 public class Usuario {
     private long id;
     private String nome;
