@@ -21,13 +21,13 @@ public class CrudApplication {
     public static void cadastrar(){
         try {
             System.out.println("Nos diga seu Nome: ");
-            String nome = sc.next();
+            String nome = sc.nextLine();
 
             System.out.println("Crie seu Email (usando '@gmail' e '.com'): ");
-            String email = sc.next();
+            String email = sc.nextLine();
 
             System.out.println("Crie sua Senha (Min 4 - Max 10 caracteres, letras e números. Caracteres especiais permitidos: @ e #):");
-            String senha = sc.next();
+            String senha = sc.nextLine();
 
             service.cadastrar(nome,email, senha);
 
