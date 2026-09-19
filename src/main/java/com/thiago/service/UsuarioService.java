@@ -57,8 +57,6 @@ public class UsuarioService {
         }
 
         repository.atualizarEmail(id, email);
-        System.out.println("Email atualizado com sucesso!");
-
         return usuario;
     }
 
@@ -75,8 +73,6 @@ public class UsuarioService {
             throw new SenhaInvalidaException("Senha inválida. Maximo 10 caracteres, caracteres especiais permitidos: @ e #");
         }
         repository.atualizarSenha(id, senha);
-        System.out.println("Senha atualizada com sucesso!");
-
         return usuario;
     }
 
@@ -91,8 +87,6 @@ public class UsuarioService {
         }
 
         repository.deletePorId(id);
-        System.out.println("Conta deletada com sucesso!");
-
         return usuario;
     }
 }
