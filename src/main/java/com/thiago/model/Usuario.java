@@ -39,7 +39,7 @@ public class Usuario {
         this.email = email;
     }
     public void setSenha(String senha) {
-        if(senha == null || !senha.matches("[a-zA-Z0-9@#]{1,10}")){
+        if(senha == null || !senha.matches("[a-zA-Z0-9@#]{4,10}")){
             throw new SenhaInvalidaException("Senha inválida. Maximo 10 caracteres, caracteres especiais permitidos: @ e #");
         }
         this.senha = senha;

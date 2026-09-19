@@ -1,5 +1,6 @@
 package com.thiago.service;
 
+import com.thiago.exceptions.*;
 import com.thiago.model.Usuario;
 import com.thiago.repository.UsuarioRepository;
 import org.junit.jupiter.api.Test;
@@ -27,12 +28,11 @@ public class UsuarioServiceTest {
 
     // ----- TESTES PARA O MÉTODO CADASTRAR ------
 
-
     // Testando o método cadastrar para verificar se lança exceção quando o nome é nulo ou vazio ao se cadastrar Usuario.
     @ParameterizedTest
     @NullAndEmptySource
     public void deveLancarExcecaoQuandoNomeForNuloOuVazio(String nome){
-        IllegalArgumentException exception =  assertThrows(IllegalArgumentException.class, () -> {
+        NomeInvalidoException exception =  assertThrows(NomeInvalidoException.class, () -> {
             usuarioService.cadastrar(nome, "teste12@gmail.com", "Teste123");
         });
 
@@ -45,25 +45,24 @@ public class UsuarioServiceTest {
 
         Mockito.when(usuarioRepository.emailJaExistente("teste123@gmail.com")).thenReturn(true);
 
-        IllegalArgumentException exception =  assertThrows(IllegalArgumentException.class, () -> {
+        EmailJaCadastradoException exception =  assertThrows(EmailJaCadastradoException.class, () -> {
             usuarioService.cadastrar("Teste", "teste123@gmail.com", "Teste123");
         });
 
         assertEquals("Email já Existente no momento!", exception.getMessage());
-
         Mockito.verify(usuarioRepository).emailJaExistente("teste123@gmail.com");
     }
 
     // Testando o método cadastrar para verificar se lança exceção quando a senha é inválida ao se cadastrar Usuario.
     @ParameterizedTest
     @NullSource
-    @ValueSource(strings = { "", "Teste 123", "testeDoTeste", "teste_"})
+    @ValueSource(strings = { "", "tes", "Teste 123", "testeDoTeste", "teste_"})
     public void deveLancarExcecaoQuandoSenhaForInvalida(String senha){
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+        SenhaInvalidaException exception = assertThrows(SenhaInvalidaException.class, () -> {
             usuarioService.cadastrar("Teste", "teste@gmail.com", senha);
         });
 
-        assertEquals("Senha inválida", exception.getMessage());
+        assertEquals("Senha Fora dos padrôes Exigidos", exception.getMessage());
     }
 
     //Testando se usuario esta sendo cadastrado.
@@ -83,26 +82,24 @@ public class UsuarioServiceTest {
     public void deveLancarExcecaoSeUsuarioNaoForEncontrado(){
         Mockito.when(usuarioRepository.buscarPorEmail("teste13@gmail.com")).thenReturn(null);
 
-        assertThrows(IllegalArgumentException.class, () -> {
+        UsuarioNaoEncontradoException exception= assertThrows(UsuarioNaoEncontradoException.class, () -> {
            usuarioService.login("teste13@gmail.com", "teste123");
         });
 
+        assertEquals("Usuario não encontrado!", exception.getMessage());
         Mockito.verify(usuarioRepository).buscarPorEmail("teste13@gmail.com");
     }
 
     //Testando metodo login para saber se a exceção é lançado quando senha for Incorreta
     @Test
     public void deveLancarExcecaoSeSenhaForIncorretaL(){
-        Usuario usuarioSenhaIncorreta = new Usuario("Teste", "teste00@gmail.com", "Teste900");
+        Mockito.when(usuarioRepository.buscarPorEmail("teste00@gmail.com")).thenReturn( new Usuario(1L, "Teste", "teste00@gmail.com", "teste900"));
 
-        Mockito.when(usuarioRepository.buscarPorEmail("teste00@gmail.com")).thenReturn(usuarioSenhaIncorreta);
-
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            usuarioService.login("teste00@gmail.com", "senhaErrada");
+        SenhaIncorretaException exception = assertThrows(SenhaIncorretaException.class, () -> {
+            usuarioService.login("teste00@gmail.com", "teste123");
         });
 
         assertEquals("Senha incorreta!", exception.getMessage());
-
         Mockito.verify(usuarioRepository).buscarPorEmail("teste00@gmail.com");
     }
 
@@ -114,12 +111,11 @@ public class UsuarioServiceTest {
     public void deveLancarExcecaoSeUsuarioNaoForEncontradoAtualizarEmail(){
         Mockito.when(usuarioRepository.buscarPorId(1L)).thenReturn(null);
 
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+        UsuarioNaoEncontradoException exception = assertThrows(UsuarioNaoEncontradoException.class, () -> {
            usuarioService.atualizarEmail(1L,"teste@gmail.com", "teste900");
         });
 
         assertEquals("Usuario não encontrado!", exception.getMessage());
-
         Mockito.verify(usuarioRepository).buscarPorId(1L);
     }
 
@@ -129,32 +125,133 @@ public class UsuarioServiceTest {
         Usuario usuarioAtualizarEmail = new Usuario(1L,"Teste", "teste@gmail.com", "teste123");
         Mockito.when(usuarioRepository.buscarPorId(1L)).thenReturn(usuarioAtualizarEmail);
 
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+        SenhaIncorretaException exception = assertThrows(SenhaIncorretaException.class, () -> {
             usuarioService.atualizarEmail(usuarioAtualizarEmail.getId(), usuarioAtualizarEmail.getEmail(), "teste321");
         });
 
         assertEquals("Senha incorreta!", exception.getMessage());
-
         Mockito.verify(usuarioRepository).buscarPorId(1L);
+    }
+    // Teste para verificar se usuario tentar atualizar email com um já existente lança exceção
+    @Test
+    public void deveLancarExcecaoSeEmailJaForCadastradoAtualizarEmail(){
+        Mockito.when(usuarioRepository.buscarPorId(1L)).thenReturn(new Usuario(1L, "Teste", "teste900@gmail.com", "teste12"));
+        Mockito.when(usuarioRepository.emailJaExistente("teste123@gmail.com")).thenReturn(true);
+
+        EmailJaCadastradoException exception =  assertThrows(EmailJaCadastradoException.class, () -> {
+            usuarioService.atualizarEmail(1L, "teste123@gmail.com", "teste12");
+        });
+
+        assertEquals("Esse email já foi cadastrado!", exception.getMessage());
+        Mockito.verify(usuarioRepository).emailJaExistente("teste123@gmail.com");
     }
 
     @Test
-    public void deveLancarExcecaoSeEmailJaEstiverCadastradoAtualizarEmail(){
+    public void naoDeveLancarExcecaoSeEmailForAtualizadoComSucesso(){
+        Mockito.when(usuarioRepository.buscarPorId(1L)).thenReturn(new Usuario(1L, "TesteEmail", "testeEmail@gmail.com", "teste123"));
 
+        assertDoesNotThrow(() -> {
+            usuarioService.atualizarEmail(1L, "testeEmailAtualizado@gmail.com", "teste123");
+        });
+
+        Mockito.verify(usuarioRepository).buscarPorId(1L);
     }
 
 
     //----- TESTES PARA O MÉTODO ATUALIZAR SENHA -------
 
+    //Testando buscar usuario pelo Id, se não for encontrado lança a exceção
+    @Test
+    public void deveLancarExcecaoSeUsuarioNaoForEncontradoAtualizarSenha() {
+        Mockito.when(usuarioRepository.buscarPorId(1L)).thenReturn(null);
+
+        UsuarioNaoEncontradoException exception = assertThrows(UsuarioNaoEncontradoException.class, () -> {
+            usuarioService.atualizarSenha(1L, "teste23@gmail.com", "teste900");
+        });
+
+        assertEquals("Usuario não encontrado!", exception.getMessage());
+        Mockito.verify(usuarioRepository).buscarPorId(1L);
+    }
+
     /* Testando o método atualizarSenha para verificar se lança exceção quando a senha é incorreta
     /* antes de prosseguir com a atualização da senha. */
     @Test
     public void deveLancarExcecaoQuandoSenhaForIncorreta(){
-        Usuario usuario = new Usuario(1L, "Teste", "teste@gmail.com", "Teste123");
-        Mockito.when(usuarioRepository.buscarPorId(1L)).thenReturn(usuario);
+        Mockito.when(usuarioRepository.buscarPorId(1L)).thenReturn(new Usuario(1L, "Teste21", "teste12@gmail.com", "teste12"));
 
-        assertThrows(IllegalArgumentException.class, () -> {
-            usuarioService.atualizarSenha(usuario.getId(), "Teste12", "Teste900");
+        SenhaIncorretaException exception = assertThrows(SenhaIncorretaException.class, () -> {
+            usuarioService.atualizarSenha(1L, "Teste123", "Teste900");
         });
+
+        assertEquals("Senha incorreta!", exception.getMessage());
+        Mockito.verify(usuarioRepository).buscarPorId(1L);
+    }
+
+    // Testandd tipos de formatos de senha ate cair na exceção
+    @ParameterizedTest
+    @ValueSource(strings = { "", "tes", "Teste 123", "testeDoTeste", "teste_", "312893894234"})
+    public void deveLancarExcecaoQuandoSenhaForInvalidaAtualizarSenha(String senha){
+        Mockito.when(usuarioRepository.buscarPorId(1L)).thenReturn(new Usuario(1L, "Teste", "teste123@gmail.com", "teste900"));
+
+        SenhaInvalidaException exception = assertThrows(SenhaInvalidaException.class, () -> {
+
+            usuarioService.atualizarSenha(1L, "teste900", senha);
+        });
+
+        assertEquals("Senha inválida. Maximo 10 caracteres, caracteres especiais permitidos: @ e #", exception.getMessage());
+        Mockito.verify(usuarioRepository).buscarPorId(1L);
+    }
+
+    @Test
+    public void naoDeveLancarExcecaoSeSenhaForAtualizadaComSucesso(){
+        Mockito.when(usuarioRepository.buscarPorId(1L)).thenReturn(new Usuario(1L, "TesteSenha", "testesenha@gmail.com", "teste123"));
+
+        assertDoesNotThrow(() -> {
+            usuarioService.atualizarSenha(1L, "teste123", "teste900");
+        });
+
+        Mockito.verify(usuarioRepository).buscarPorId(1L);
+    }
+
+    //----- TESTES PARA O MÉTODO DELETAR USUARIO -------
+
+
+    // Teste para verificação de exceções no metodo Deletar.
+    @Test
+    public void deveLancarExcecaoSeUsuarioNaoForEncontradoDeletar(){
+        Mockito.when(usuarioRepository.buscarPorId(1L)).thenReturn(null);
+
+        UsuarioNaoEncontradoException exception = assertThrows(UsuarioNaoEncontradoException.class, () -> {
+            usuarioService.deletar(1L, "teste123");
+        });
+
+        assertEquals("Usuario não encontrado!", exception.getMessage());
+        Mockito.verify(usuarioRepository).buscarPorId(1L);
+    }
+
+    // Teste de verificação se lança exceção quando senha for null/incorreta
+    @Test
+    public void deveLancarExcecaoSeSenhaForNull(){
+        Mockito.when(usuarioRepository.buscarPorId(1L)).thenReturn(new Usuario(1L, "Teste", "teste@gmail.com", "teste123"));
+
+        SenhaIncorretaException exception = assertThrows(SenhaIncorretaException.class, () -> {
+            usuarioService.deletar(1L, null);
+        });
+
+        assertEquals("Senha incorreta!", exception.getMessage());
+        Mockito.verify(usuarioRepository).buscarPorId(1L);
+    }
+
+    // Teste de verificação se lança exceção quando senha for incorreta
+    @Test
+    public void deveLancarExcecaoSeSenhaForIncorreta(){
+        Mockito.when(usuarioRepository.buscarPorId(1L)).thenReturn(new Usuario(1L, "Teste", "teste@gmail.com", "teste321"));
+
+        SenhaIncorretaException exception = assertThrows(SenhaIncorretaException.class, () -> {
+            usuarioService.deletar(1L, "teste900");
+        });
+
+        assertEquals("Senha incorreta!", exception.getMessage());
+        Mockito.verify(usuarioRepository).buscarPorId(1L);
     }
 }
