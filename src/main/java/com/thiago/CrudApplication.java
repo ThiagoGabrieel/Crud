@@ -23,7 +23,7 @@ public class CrudApplication {
             System.out.println("Nos diga seu Nome: ");
             String nome = sc.next();
 
-            System.out.println("Crie seu Email (usando '@gmail'): ");
+            System.out.println("Crie seu Email (usando '@gmail' e '.com'): ");
             String email = sc.next();
 
             System.out.println("Crie sua Senha (Min 4 - Max 10 caracteres, letras e números. Caracteres especiais permitidos: @ e #):");
