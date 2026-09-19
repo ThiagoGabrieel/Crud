@@ -1,6 +1,6 @@
 package com.thiago;
 
-import com.thiago.face.InterfaceApplication;
+import com.thiago.menu.MenuApplication;
 import com.thiago.exceptions.UsuarioException;
 import com.thiago.model.Usuario;
 import com.thiago.repository.UsuarioRepository;
@@ -12,7 +12,7 @@ public class CrudApplication {
     static UsuarioRepository repository = new UsuarioRepository();
     static UsuarioService service = new UsuarioService(repository);
     static Usuario usuario;
-    static InterfaceApplication application = new InterfaceApplication();
+    static MenuApplication application = new MenuApplication();
 
     public static void main(String[] args) {
         application.menuInicial();
