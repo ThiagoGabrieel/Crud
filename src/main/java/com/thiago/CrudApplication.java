@@ -12,28 +12,10 @@ public class CrudApplication {
     static UsuarioRepository repository = new UsuarioRepository();
     static UsuarioService service = new UsuarioService(repository);
     static Usuario usuario;
+    static InterfaceApplication application = new InterfaceApplication();
 
     public static void main(String[] args) {
-
-        while(true){
-            System.out.println("----- MENU INICIAL -----");
-            System.out.println("[1] - CADASTRAR");
-            System.out.println("[2] - LOGIN");
-            System.out.println("[3] - EXIT");
-            System.out.println("-------------------------");
-            System.out.print("Escolha: ");
-            int opcao = sc.nextInt();
-
-            switch (opcao){
-                case 1: cadastrar(); break;
-                case 2: login(); break;
-                case 3: System.out.print("Encerrando...");
-                    sc.close();
-                    return;
-
-                default: System.out.println("Opção inválida");
-            }
-        }
+        application.menuInicial();
     }
 
     public static void cadastrar(){
@@ -72,7 +54,7 @@ public class CrudApplication {
 
                 System.out.println("Bem vindo, " + usuario.getNome() + "!");
 
-                menuUsuario();
+                application.menuUsuario();
                 return;
 
             } catch (UsuarioException e) {
@@ -133,7 +115,9 @@ public class CrudApplication {
                 if(confirmacao.equalsIgnoreCase("sim")){
                     service.deletar(usuario.getId(), senha);
                     System.out.println("Conta deletada com sucesso!");
-                    break;
+
+                    application.menuInicial();
+                    return;
 
                 } else if(confirmacao.equalsIgnoreCase("nao")) {
                     System.out.println("Operação de deletar conta cancelada.");
