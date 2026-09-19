@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 import static com.thiago.CrudApplication.*;
 
-public class InterfaceApplication {
+public class MenuApplication {
     Scanner sc = new Scanner(System.in);
 
     public void menuInicial(){
