@@ -1,4 +1,4 @@
-package com.thiago.face;
+package com.thiago.menu;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
