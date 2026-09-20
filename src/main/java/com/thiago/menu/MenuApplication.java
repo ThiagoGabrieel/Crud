@@ -1,5 +1,9 @@
 package com.thiago.menu;
 
+import com.thiago.exceptions.EmailInvalidoException;
+import com.thiago.exceptions.NomeInvalidoException;
+import com.thiago.exceptions.SenhaInvalidaException;
+
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -20,6 +24,7 @@ public class MenuApplication {
 
             try {
                 opcao = sc.nextInt();
+
             } catch (InputMismatchException e) {
                 System.out.println("Opção inválida, digite somente os números apresentados na tela!");
 
@@ -69,5 +74,46 @@ public class MenuApplication {
                 default: System.out.println("Opção inválida");
             }
         }
+    }
+
+    // Retirei a validação da main pra por aqui pois ficaria confuso de mais de tanto metodos staticos lá
+
+    /*
+    Métodos de verificação para ver se Usuario colocou nome, email e senha vazio
+    o metodo vai pegar o que o usuario digitou, vai verificar se é vazio com isBlank
+    se for, vai dar mensagem de erro.
+
+    A mensagem aparecerá na tela no momento que ele der enter, no nome ou email ou senha
+    (no momento essa mensagem ainda quebra o fluxo de cadastro do usuario),
+     a pessoa tem que recomeçar o processo até conseguir executar da forma certa.*/
+
+    public static String lerNome(Scanner sc){
+        System.out.println("Digite seu Nome: ");
+        String nome = sc.nextLine();
+
+        if(nome.isBlank()){
+            throw new NomeInvalidoException("Nome inválido");
+        }
+        return nome;
+    }
+
+    public static String lerEmail(Scanner sc){
+        System.out.println("Crie seu Email (usando '@gmail' e '.com'): ");
+        String email = sc.nextLine();
+
+        if(email.isBlank() || !email.contains("@gmail")){
+            throw new EmailInvalidoException("Email inválido");
+        }
+        return email;
+    }
+
+    public static String lerSenha(Scanner sc){
+        System.out.println("Crie sua Senha (Min 4 - Max 10 caracteres, letras e números. Caracteres especiais permitidos: @ e #):");
+        String senha = sc.nextLine();
+
+        if(senha.isBlank()){
+            throw new SenhaInvalidaException("Senha inválida");
+        }
+        return senha;
     }
 }
