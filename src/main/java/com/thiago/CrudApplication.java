@@ -6,6 +6,7 @@ import com.thiago.model.Usuario;
 import com.thiago.repository.UsuarioRepository;
 import com.thiago.service.UsuarioService;
 import java.util.Scanner;
+import static com.thiago.menu.MenuApplication.*;
 
 public class CrudApplication {
     static Scanner sc = new Scanner(System.in);
@@ -20,14 +21,9 @@ public class CrudApplication {
 
     public static void cadastrar(){
         try {
-            System.out.println("Nos diga seu Nome: ");
-            String nome = sc.nextLine();
-
-            System.out.println("Crie seu Email (usando '@gmail' e '.com'): ");
-            String email = sc.nextLine();
-
-            System.out.println("Crie sua Senha (Min 4 - Max 10 caracteres, letras e números. Caracteres especiais permitidos: @ e #):");
-            String senha = sc.nextLine();
+            String nome = lerNome(sc);
+            String email = lerEmail(sc);
+            String senha = lerSenha(sc);
 
             service.cadastrar(nome,email, senha);
 
