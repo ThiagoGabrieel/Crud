@@ -26,10 +26,20 @@ public class DbConfig {
     public static String getUrl() {
         return props.getProperty("db.url");
     }
+
     public static String getUser() {
         return props.getProperty("db.user");
     }
+
     public static String getPassword() {
         return props.getProperty("db.password");
+    }
+
+    private static String getRequiredProperty(String key) {
+        String value = props.getProperty(key);
+        if (value == null) {
+            throw new RuntimeException("Propriedade obrigatoria não encontrada: " + key);
+        }
+        return value;
     }
 }
