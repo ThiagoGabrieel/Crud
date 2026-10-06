@@ -1,6 +1,6 @@
 package com.thiago.exceptions;
 
-public class SenhaInvalidaException extends UsuarioException {
+public class SenhaInvalidaException extends RuntimeException {
     public SenhaInvalidaException(String message) {
         super(message);
     }

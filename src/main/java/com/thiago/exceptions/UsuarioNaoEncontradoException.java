@@ -1,6 +1,6 @@
 package com.thiago.exceptions;
 
-public class UsuarioNaoEncontradoException extends UsuarioException {
+public class UsuarioNaoEncontradoException extends RuntimeException {
     public UsuarioNaoEncontradoException(String message) {
         super(message);
     }
