@@ -62,7 +62,7 @@ public class UsuarioServiceTest {
             usuarioService.cadastrar("Teste", "teste@gmail.com", senha);
         });
 
-        assertEquals("Senha Fora dos padrôes Exigidos", exception.getMessage());
+        assertEquals("Senha inválida. Maximo 10 caracteres, caracteres especiais permitidos: @ e #", exception.getMessage());
     }
 
     //Testando se usuario esta sendo cadastrado.
@@ -142,7 +142,7 @@ public class UsuarioServiceTest {
             usuarioService.atualizarEmail(1L, "teste123@gmail.com", "teste12");
         });
 
-        assertEquals("Esse email já foi cadastrado!", exception.getMessage());
+        assertEquals("Inválido. Esse email já foi cadastrado!", exception.getMessage());
         Mockito.verify(usuarioRepository).emailJaExistente("teste123@gmail.com");
     }
 
