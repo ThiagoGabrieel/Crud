@@ -3,12 +3,28 @@ package com.thiago.repository;
 import com.thiago.connection.ConnectionFactory;
 import com.thiago.exceptions.RepositoryException;
 import com.thiago.model.Usuario;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+
+import java.sql.*;
 
 public class UsuarioRepository {
+    public void tabelaAutomatica(){
+        String sql = """
+                CREATE TABLE IF NOT EXISTS usuario(
+                    id INT PRIMARY KEY AUTO_INCREMENT,
+                    nome VARCHAR(150) NOT NULL,
+                    email VARCHAR(250) NOT NULL UNIQUE,
+                    senha VARCHAR(10) NOT NULL
+                );
+                """;
+
+        try(Connection conn = ConnectionFactory.conectar();
+            Statement sttm = conn.createStatement()){
+            sttm.execute(sql);
+
+        } catch (SQLException e) {
+            throw new RepositoryException("Erro ao criar tabela",e);
+        }
+    }
 
     // Implementação para salvar o usuário no banco de dados
     public void salvar(Usuario usuario) {

@@ -16,6 +16,7 @@ public class CrudApplication {
     static MenuApplication application = new MenuApplication();
 
     public static void main(String[] args) {
+        repository.tabelaAutomatica();
         application.menuInicial();
     }
 
