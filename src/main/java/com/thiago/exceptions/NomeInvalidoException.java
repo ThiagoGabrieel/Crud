@@ -1,7 +1,7 @@
 package com.thiago.exceptions;
 
-public class NomeInvalidoException extends RuntimeException {
-    public NomeInvalidoException(String message) {
-        super(message);
+public class NomeInvalidoException extends UsuarioException {
+    public NomeInvalidoException() {
+        super("Nome inválido");
     }
 }
