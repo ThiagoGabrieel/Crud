@@ -29,7 +29,11 @@ public class CrudApplication {
             System.out.println("------------------------");
             service.cadastrar(nome,email, senha);
 
-        } catch (UsuarioException e) {
+        }
+        catch (NomeInvalidoException | EmailInvalidoException | SenhaInvalidaException e){
+            System.out.println("Erro! Dados inválidos: " + e.getMessage());
+        }
+        catch (UsuarioException e) {
             System.out.println("Erro ao se Cadastrar " + e.getMessage());
         }
     }
