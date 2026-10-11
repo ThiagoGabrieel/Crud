@@ -64,7 +64,7 @@ public class CrudApplication {
 
             }
             catch (UsuarioException e) {
-                System.out.println("Erro inesperado: " + e.getMessage());
+                System.out.println("Erro ao fazer login: " + e.getMessage());
                 tentativas++;
 
             }
