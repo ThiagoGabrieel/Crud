@@ -14,20 +14,19 @@ public class MenuApplication {
 
     public void menuInicial(){
         while(true){
-            System.out.println("----- MENU INICIAL -----");
-            System.out.println("[1] - CADASTRAR");
-            System.out.println("[2] - LOGIN");
-            System.out.println("[3] - EXIT");
-            System.out.println("-------------------------");
-            System.out.print("Escolha: ");
             int opcao;
 
             try {
+                System.out.println("----- MENU INICIAL -----");
+                System.out.println("[1] - CADASTRAR");
+                System.out.println("[2] - LOGIN");
+                System.out.println("[3] - EXIT");
+                System.out.println("-------------------------");
+                System.out.print("Escolha: ");
                 opcao = sc.nextInt();
 
             } catch (InputMismatchException e) {
                 System.out.println("Opção inválida, digite somente os números apresentados na tela!");
-
                 sc.next();
                 continue;
             }
@@ -46,23 +45,24 @@ public class MenuApplication {
 
     public void menuUsuario(){
         while(true){
-            System.out.println("----- MENU DE USUARIO -----");
-            System.out.println("[1] - ATUALIZAR EMAIL");
-            System.out.println("[2] - ATUALIZAR SENHA");
-            System.out.println("[3] - DELETAR CONTA");
-            System.out.println("[4] - VOLTAR");
-            System.out.println("----------------------------");
-            System.out.print("Escolha: ");
+
             int segundaOpcao;
-
             try {
+                System.out.println("----- MENU DE USUARIO -----");
+                System.out.println("[1] - ATUALIZAR EMAIL");
+                System.out.println("[2] - ATUALIZAR SENHA");
+                System.out.println("[3] - DELETAR CONTA");
+                System.out.println("[4] - VOLTAR");
+                System.out.println("----------------------------");
+                System.out.print("Escolha: ");
                 segundaOpcao = sc.nextInt();
-            } catch (InputMismatchException e) {
+            }
+            catch (InputMismatchException e) {
                 System.out.println("Opção inválida, digite somente os números apresentados na tela!");
-
                 sc.next();
                 continue;
             }
+
 
             switch(segundaOpcao){
                 case 1: atualizarEmail(); break;
@@ -76,7 +76,7 @@ public class MenuApplication {
         }
     }
 
-    // Retirei a validação da main pra por aqui pois ficaria confuso de mais de tanto metodos staticos lá
+    // Retirei a validação da main pra por aqui, pois ficaria confuso de mais de tanto metodos staticos lá
 
     /*
     Métodos de verificação para ver se Usuario colocou nome, email e senha vazio

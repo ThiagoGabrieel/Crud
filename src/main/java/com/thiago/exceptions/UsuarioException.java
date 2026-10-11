@@ -1,6 +1,6 @@
 package com.thiago.exceptions;
 
-public class UsuarioException extends RuntimeException {
+public abstract class UsuarioException extends RuntimeException {
 
     public UsuarioException(String message) {
         super(message);
