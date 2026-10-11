@@ -54,7 +54,7 @@ public class CrudApplication {
                 String senhaDigitada = sc.next();
 
                 // Essa entrada de scanner não deixara ter que dar enter duas vezes após colocar sua senha
-                //ele come a quebra de linha pendente que fica após a senha
+                //ele come a quebra de linha pendente que fica após o scanner de senha
                 sc.nextLine();
                 System.out.println("-----------------");
 
@@ -67,11 +67,11 @@ public class CrudApplication {
 
             }
             catch (UsuarioNaoEncontradoException e ){
-                System.out.println("Erro ao se logar " + e.getMessage());
+                System.out.println("Erro ao se logar: " + e.getMessage());
                 System.out.println("Tente novamente");
             }
             catch (UsuarioException e) {
-                System.out.println("Erro ao fazer Login: " + e.getMessage());
+                System.out.println("Erro inesperado: " + e.getMessage());
                 tentativas++;
 
             }
