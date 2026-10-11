@@ -76,7 +76,7 @@ public class MenuApplication {
         }
     }
 
-    // Retirei a validação da main pra por aqui pois ficaria confuso de mais de tanto metodos staticos lá
+    // Retirei a validação da main pra por aqui, pois ficaria confuso de mais de tanto metodos staticos lá
 
     /*
     Métodos de verificação para ver se Usuario colocou nome, email e senha vazio
