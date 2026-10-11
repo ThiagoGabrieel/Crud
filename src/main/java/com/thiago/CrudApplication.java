@@ -30,9 +30,6 @@ public class CrudApplication {
             service.cadastrar(nome,email, senha);
 
         }
-        catch (NomeInvalidoException | EmailInvalidoException | SenhaInvalidaException e){
-            System.out.println("Erro! Dados inválidos: " + e.getMessage());
-        }
         catch (UsuarioException e) {
             System.out.println("Erro ao se Cadastrar " + e.getMessage());
         }
@@ -65,10 +62,6 @@ public class CrudApplication {
                 application.menuUsuario();
                 return;
 
-            }
-            catch (UsuarioNaoEncontradoException e ){
-                System.out.println("Erro ao se logar: " + e.getMessage());
-                System.out.println("Tente novamente");
             }
             catch (UsuarioException e) {
                 System.out.println("Erro inesperado: " + e.getMessage());
