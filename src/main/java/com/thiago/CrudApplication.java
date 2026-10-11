@@ -1,7 +1,7 @@
 package com.thiago;
 
+import com.thiago.exceptions.*;
 import com.thiago.menu.MenuApplication;
-import com.thiago.exceptions.UsuarioException;
 import com.thiago.model.Usuario;
 import com.thiago.repository.UsuarioRepository;
 import com.thiago.service.UsuarioService;
@@ -22,10 +22,11 @@ public class CrudApplication {
 
     public static void cadastrar(){
         try {
+            System.out.println("----- CADASTRAR-SE -----");
             String nome = lerNome(sc);
             String email = lerEmail(sc);
             String senha = lerSenha(sc);
-
+            System.out.println("------------------------");
             service.cadastrar(nome,email, senha);
 
         } catch (UsuarioException e) {
@@ -41,11 +42,17 @@ public class CrudApplication {
         while(tentativas < maxTentativas){
 
             try {
+                System.out.println("----- LOGIN -----");
                 System.out.print("Digite seu email: ");
                 String emailDigitado = sc.next();
 
                 System.out.print("Digite sua senha: ");
                 String senhaDigitada = sc.next();
+
+                // Essa entrada de scanner não deixara ter que dar enter duas vezes após colocar sua senha
+                //ele come a quebra de linha pendente que fica após a senha
+                sc.nextLine();
+                System.out.println("-----------------");
 
                 usuario = service.login(emailDigitado, senhaDigitada);
 
@@ -54,7 +61,12 @@ public class CrudApplication {
                 application.menuUsuario();
                 return;
 
-            } catch (UsuarioException e) {
+            }
+            catch (UsuarioNaoEncontradoException e ){
+                System.out.println("Erro ao se logar " + e.getMessage());
+                System.out.println("Tente novamente");
+            }
+            catch (UsuarioException e) {
                 System.out.println("Erro ao fazer Login: " + e.getMessage());
                 tentativas++;
 
@@ -68,6 +80,7 @@ public class CrudApplication {
 
     public static void atualizarEmail(){
         try{
+            System.out.println("----- ATUALIZAR EMAIL -----");
             System.out.println("Primeiro, confirme sua senha: ");
             String senhaDigitada = sc.next();
 
@@ -76,6 +89,7 @@ public class CrudApplication {
 
             service.atualizarEmail(usuario.getId(), email, senhaDigitada);
             System.out.println("Email atualizado com sucesso!");
+            System.out.println("------------------------------");
 
         } catch (UsuarioException e){
             System.out.println("Erro ao atualizar email: " + e.getMessage());
@@ -84,6 +98,7 @@ public class CrudApplication {
 
     public static void atualizarSenha(){
         try{
+            System.out.println("----- ATUALIZAR SENHA -----");
             System.out.println("Primeiro, confirme sua senha atual: ");
             String senhaDigitada = sc.next();
 
@@ -92,6 +107,7 @@ public class CrudApplication {
 
             service.atualizarSenha(usuario.getId(), senhaDigitada, senha);
             System.out.println("Senha atualizada com sucesso!");
+            System.out.println("------------------------------");
 
         } catch (UsuarioException e){
             System.out.println("Erro ao atualizar senha: " + e.getMessage());
@@ -102,7 +118,7 @@ public class CrudApplication {
 
         while(true){
             try{
-
+                System.out.println("----- DELETAR CONTA -----");
                 System.out.println("Primeiro, confirme sua senha: ");
                 String senha = sc.next();
 
@@ -113,6 +129,7 @@ public class CrudApplication {
                     service.deletar(usuario.getId(), senha);
                     System.out.println("Conta deletada com sucesso!");
 
+                    System.out.println("-------------------------");
                     application.menuInicial();
                     return;
 
