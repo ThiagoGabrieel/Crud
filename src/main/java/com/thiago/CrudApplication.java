@@ -88,8 +88,6 @@ public class CrudApplication {
                 // Essa entrada de scanner não deixara ter que dar enter duas vezes após colocar sua senha
                 //ele come a quebra de linha pendente que fica após o scanner de senha
                 sc.nextLine();
-                System.out.println("-----------------");
-
                 usuario = service.login(emailDigitado, senhaDigitada);
                 System.out.println("-----------------");
 
@@ -112,13 +110,13 @@ public class CrudApplication {
     }
 
     public static void atualizarEmail(){
+        String senhaDigitada;
+        String email;
         try{
             System.out.println("----- ATUALIZAR EMAIL -----");
-            System.out.println("Primeiro, confirme sua senha: ");
-            String senhaDigitada = sc.next();
-
-            System.out.println("Digite o novo email: ");
-            String email = sc.next();
+            senhaDigitada = lerSenhaDigitadaAtualizarEmail(sc);
+            email = lerEmailAtualizarEmail(sc);
+            sc.nextLine();
 
             service.atualizarEmail(usuario.getId(), email, senhaDigitada);
             System.out.println("Email atualizado com sucesso!");
