@@ -1,8 +1,7 @@
 package com.thiago.menu;
 
-import com.thiago.exceptions.EmailInvalidoException;
-import com.thiago.exceptions.NomeInvalidoException;
-import com.thiago.exceptions.SenhaInvalidaException;
+import com.thiago.exceptions.*;
+import com.thiago.repository.UsuarioRepository;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -11,6 +10,7 @@ import static com.thiago.CrudApplication.*;
 
 public class MenuApplication {
     Scanner sc = new Scanner(System.in);
+    static UsuarioRepository repository = new UsuarioRepository();
 
     public void menuInicial(){
         while(true){
@@ -98,11 +98,14 @@ public class MenuApplication {
     }
 
     public static String lerEmail(Scanner sc){
-        System.out.println("Crie seu Email (usando '@gmail' e '.com'): ");
+        System.out.println("Crie seu Email (usando '@' e '.com'): ");
         String email = sc.nextLine();
 
-        if(email.isBlank() || !email.contains("@gmail")){
+        if(email.isBlank() || !email.contains("@") || !email.contains(".com")){
             throw new EmailInvalidoException("Email inválido");
+        }
+        if (repository.emailJaExistente(email)) {
+            throw new EmailJaCadastradoException("Email já Existente no momento!");
         }
         return email;
     }
@@ -110,6 +113,79 @@ public class MenuApplication {
     public static String lerSenha(Scanner sc){
         System.out.println("Crie sua Senha (Min 4 - Max 10 caracteres, letras e números. Caracteres especiais permitidos: @ e #):");
         String senha = sc.nextLine();
+
+        if(senha.isBlank()){
+            throw new SenhaInvalidaException("Senha inválida");
+        }
+        return senha;
+    }
+
+    public static String lerEmailDigitadoLogin(Scanner sc){
+        System.out.println("Digite seu Email: ");
+        String emailDigitado = sc.nextLine();
+
+        if (emailDigitado.isBlank()) {
+            throw new EmailInvalidoException("Email inválido");
+        }
+        return emailDigitado;
+    }
+
+    public static String lerSenhaDigitadaLogin(Scanner sc){
+        System.out.println("Digite seu Senha: ");
+        String senhaDigitada = sc.nextLine();
+
+        if (senhaDigitada.isBlank()) {
+            throw new SenhaInvalidaException("Senha inválida");
+        }
+        return senhaDigitada;
+    }
+
+    public static String lerSenhaDigitadaAtualizarEmail(Scanner sc){
+        System.out.println("Primeiro, confirme sua senha: ");
+        String senhaDigitada = sc.next();
+
+        if (senhaDigitada.isBlank()) {
+            throw new SenhaInvalidaException("Senha inválida");
+        }
+        return senhaDigitada;
+    }
+
+    public static String lerEmailAtualizarEmail(Scanner sc){
+        System.out.println("Digite o novo email: ");
+        String email = sc.next();
+
+        if(email.isBlank() || !email.contains("@") || !email.contains(".com")){
+            throw new EmailInvalidoException("Email inválido");
+        }
+        if (repository.emailJaExistente(email)) {
+            throw new EmailJaCadastradoException("Email já Existente no momento!");
+        }
+        return email;
+    }
+
+    public static String lerSenhaDigitadaAtualizarSenha(Scanner sc){
+        System.out.println("Primeiro, confirme sua senha atual: ");
+        String senhaDigitada = sc.next();
+
+        if(senhaDigitada.isBlank()) {
+            throw new SenhaInvalidaException("Senha inválida");
+        }
+        return senhaDigitada;
+    }
+
+    public static String lerSenhaAtualizarSenha(Scanner sc){
+        System.out.println("Digite a nova senha (maximo 10 caracteres, letras e números. Caracteres especiais permitidos: @ e #): ");
+        String senha = sc.next();
+
+        if(senha.isBlank()){
+            throw new SenhaInvalidaException("Senha inválida");
+        }
+        return senha;
+    }
+
+    public static String lerSenhaDeletar(Scanner sc){
+        System.out.println("Primeiro, confirme sua senha: ");
+        String senha = sc.next();
 
         if(senha.isBlank()){
             throw new SenhaInvalidaException("Senha inválida");
