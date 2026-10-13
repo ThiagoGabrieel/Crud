@@ -128,13 +128,13 @@ public class CrudApplication {
     }
 
     public static void atualizarSenha(){
+        String senhaDigitada;
+        String senha;
         try{
             System.out.println("----- ATUALIZAR SENHA -----");
-            System.out.println("Primeiro, confirme sua senha atual: ");
-            String senhaDigitada = sc.next();
-
-            System.out.println("Digite a nova senha (maximo 10 caracteres, letras e números. Caracteres especiais permitidos: @ e #): ");
-            String senha = sc.next();
+            senhaDigitada = lerSenhaDigitadaAtualizarSenha(sc);
+            senha = lerSenhaAtualizarSenha(sc);
+            sc.nextLine();
 
             service.atualizarSenha(usuario.getId(), senhaDigitada, senha);
             System.out.println("Senha atualizada com sucesso!");
