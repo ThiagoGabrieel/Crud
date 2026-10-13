@@ -21,13 +21,7 @@ public class CrudApplication {
     }
 
     public static void cadastrar(){
-        try {
-            System.out.println("----- CADASTRAR-SE -----");
-            String nome = lerNome(sc);
-            String email = lerEmail(sc);
-            String senha = lerSenha(sc);
-            System.out.println("------------------------");
-            service.cadastrar(nome,email, senha);
+        System.out.println("----- CADASTRAR-SE -----");
 
         String nome;
         while(true){
@@ -76,22 +70,28 @@ public class CrudApplication {
         int maxTentativas = 3;
         int tentativas = 0;
 
+        String emailDigitado;
+        String senhaDigitada;
+
         while(tentativas < maxTentativas){
 
             try {
                 System.out.println("----- LOGIN -----");
-                System.out.print("Digite seu email: ");
-                String emailDigitado = sc.next();
+                System.out.println("Se quiser voltar para tela inicial digite: exit");
 
-                System.out.print("Digite sua senha: ");
-                String senhaDigitada = sc.next();
+                emailDigitado = lerEmailDigitadoLogin(sc);
+                if (emailDigitado.toLowerCase().equals("exit")){
+                    return;
+                }
 
+                senhaDigitada = lerSenhaDigitadaLogin(sc);
                 // Essa entrada de scanner não deixara ter que dar enter duas vezes após colocar sua senha
                 //ele come a quebra de linha pendente que fica após o scanner de senha
                 sc.nextLine();
                 System.out.println("-----------------");
 
                 usuario = service.login(emailDigitado, senhaDigitada);
+                System.out.println("-----------------");
 
                 System.out.println("Bem vindo, " + usuario.getNome() + "!");
 
