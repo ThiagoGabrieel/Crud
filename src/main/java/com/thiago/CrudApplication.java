@@ -21,18 +21,48 @@ public class CrudApplication {
     }
 
     public static void cadastrar(){
-        try {
-            System.out.println("----- CADASTRAR-SE -----");
-            String nome = lerNome(sc);
-            String email = lerEmail(sc);
-            String senha = lerSenha(sc);
-            System.out.println("------------------------");
-            service.cadastrar(nome,email, senha);
+        System.out.println("----- CADASTRAR-SE -----");
 
+        String nome;
+        while(true){
+            try {
+                //as vezes a pessoa diigta sem querer a opção e quer voltar....
+                System.out.println("Se quiser voltar para tela inicial digite: exit");
+                nome = lerNome(sc);
+                if (nome.toLowerCase().equals("exit")){
+                    return;
+                }
+                break;
+            }
+            catch (UsuarioException e){
+                System.out.println("Erro ao cadastrar nome: " + e.getMessage());
+            }
         }
-        catch (UsuarioException e) {
-            System.out.println("Erro ao se Cadastrar " + e.getMessage());
+
+        String email;
+        while(true){
+            try {
+                email = lerEmail(sc);
+                break;
+            }
+            catch (UsuarioException e) {
+                System.out.println("Erro ao cadastrar email: " + e.getMessage());
+            }
         }
+
+        String senha;
+        while(true){
+            try {
+                senha = lerSenha(sc);
+                break;
+            }
+            catch (UsuarioException e){
+                System.out.println("Erro ao cadastrar senha: " + e.getMessage());
+            }
+        }
+
+        service.cadastrar(nome,email,senha);
+        System.out.println("------------------------");
     }
 
     public static void login(){
@@ -40,22 +70,26 @@ public class CrudApplication {
         int maxTentativas = 3;
         int tentativas = 0;
 
+        String emailDigitado;
+        String senhaDigitada;
+
         while(tentativas < maxTentativas){
 
             try {
                 System.out.println("----- LOGIN -----");
-                System.out.print("Digite seu email: ");
-                String emailDigitado = sc.next();
+                System.out.println("Se quiser voltar para tela inicial digite: exit");
 
-                System.out.print("Digite sua senha: ");
-                String senhaDigitada = sc.next();
+                emailDigitado = lerEmailDigitadoLogin(sc);
+                if (emailDigitado.toLowerCase().equals("exit")){
+                    return;
+                }
 
+                senhaDigitada = lerSenhaDigitadaLogin(sc);
                 // Essa entrada de scanner não deixara ter que dar enter duas vezes após colocar sua senha
                 //ele come a quebra de linha pendente que fica após o scanner de senha
                 sc.nextLine();
-                System.out.println("-----------------");
-
                 usuario = service.login(emailDigitado, senhaDigitada);
+                System.out.println("-----------------");
 
                 System.out.println("Bem vindo, " + usuario.getNome() + "!");
 
@@ -76,13 +110,13 @@ public class CrudApplication {
     }
 
     public static void atualizarEmail(){
+        String senhaDigitada;
+        String email;
         try{
             System.out.println("----- ATUALIZAR EMAIL -----");
-            System.out.println("Primeiro, confirme sua senha: ");
-            String senhaDigitada = sc.next();
-
-            System.out.println("Digite o novo email: ");
-            String email = sc.next();
+            senhaDigitada = lerSenhaDigitadaAtualizarEmail(sc);
+            email = lerEmailAtualizarEmail(sc);
+            sc.nextLine();
 
             service.atualizarEmail(usuario.getId(), email, senhaDigitada);
             System.out.println("Email atualizado com sucesso!");
@@ -94,13 +128,13 @@ public class CrudApplication {
     }
 
     public static void atualizarSenha(){
+        String senhaDigitada;
+        String senha;
         try{
             System.out.println("----- ATUALIZAR SENHA -----");
-            System.out.println("Primeiro, confirme sua senha atual: ");
-            String senhaDigitada = sc.next();
-
-            System.out.println("Digite a nova senha (maximo 10 caracteres, letras e números. Caracteres especiais permitidos: @ e #): ");
-            String senha = sc.next();
+            senhaDigitada = lerSenhaDigitadaAtualizarSenha(sc);
+            senha = lerSenhaAtualizarSenha(sc);
+            sc.nextLine();
 
             service.atualizarSenha(usuario.getId(), senhaDigitada, senha);
             System.out.println("Senha atualizada com sucesso!");
@@ -112,12 +146,12 @@ public class CrudApplication {
     }
 
     public static void deletar(){
-
+        String senha;
         while(true){
             try{
                 System.out.println("----- DELETAR CONTA -----");
-                System.out.println("Primeiro, confirme sua senha: ");
-                String senha = sc.next();
+                senha = lerSenha(sc);
+                sc.nextLine();
 
                 System.out.print("Deseja realmente deletar sua conta? (Sim/Nao): ");
                 String confirmacao = sc.next();
