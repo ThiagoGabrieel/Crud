@@ -146,12 +146,12 @@ public class CrudApplication {
     }
 
     public static void deletar(){
-
+        String senha;
         while(true){
             try{
                 System.out.println("----- DELETAR CONTA -----");
-                System.out.println("Primeiro, confirme sua senha: ");
-                String senha = sc.next();
+                senha = lerSenha(sc);
+                sc.nextLine();
 
                 System.out.print("Deseja realmente deletar sua conta? (Sim/Nao): ");
                 String confirmacao = sc.next();
