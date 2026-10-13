@@ -29,10 +29,46 @@ public class CrudApplication {
             System.out.println("------------------------");
             service.cadastrar(nome,email, senha);
 
+        String nome;
+        while(true){
+            try {
+                //as vezes a pessoa diigta sem querer a opção e quer voltar....
+                System.out.println("Se quiser voltar para tela inicial digite: exit");
+                nome = lerNome(sc);
+                if (nome.toLowerCase().equals("exit")){
+                    return;
+                }
+                break;
+            }
+            catch (UsuarioException e){
+                System.out.println("Erro ao cadastrar nome: " + e.getMessage());
+            }
         }
-        catch (UsuarioException e) {
-            System.out.println("Erro ao se Cadastrar " + e.getMessage());
+
+        String email;
+        while(true){
+            try {
+                email = lerEmail(sc);
+                break;
+            }
+            catch (UsuarioException e) {
+                System.out.println("Erro ao cadastrar email: " + e.getMessage());
+            }
         }
+
+        String senha;
+        while(true){
+            try {
+                senha = lerSenha(sc);
+                break;
+            }
+            catch (UsuarioException e){
+                System.out.println("Erro ao cadastrar senha: " + e.getMessage());
+            }
+        }
+
+        service.cadastrar(nome,email,senha);
+        System.out.println("------------------------");
     }
 
     public static void login(){
